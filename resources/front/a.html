@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assign</title>
+
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.css"/>
+
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Request IT</h2>
+                </div>
+                <div class="col-md-6 ">
+                    <ul class="pull-right header-right">
+                        <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                        <li><a href="#">IT</a></li>
+                        <li>Request IT</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3 ">
+                <div class="content-left">
+                    <div class="add-request">
+                        <a href="#" class="btn btn-danger"><i class="fa fa-plus" aria-hidden="true"></i> Thêm yêu cầu</a>
+                    </div>
+                    <div class="myrequest">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4>Việc tôi yêu cầu
+                                        <span class="panel-title">
+                                            <a data-toggle="collapse" href="#myrequest"><i class="fa" aria-hidden="true"></i> </a>
+                                        </span>
+                                    </h4>
+                                    
+                                </div>
+                                <div id="myrequest" class="panel-collapse collapse in">
+                                    <ul class="list-group">
+                                        <li><a href="#" class="list-group-item"><i class="fa fa-inbox" aria-hidden="true"></i>All<span class="label label-primary pull-right">1</span><span class="chuaxem"></span></a></li>
+                                        <li><a href="#" class="list-group-item"><i class="fa fa-envelope-o" aria-hidden="true"></i>New<span class="label label-success pull-right">2</span></a></li>
+                                        <li><a href="#" class="list-group-item"><i class="fa fa-download" aria-hidden="true"></i>Inprogress<span class="label label-info pull-right">3</span></a></li>
+                                        <li><a href="#" class="list-group-item"><i class="fa fa-registered" aria-hidden="true"></i>Resolved<span class="label label-warning pull-right">4</span></a></li>
+                                        <li><a href="#" class="list-group-item"><i class="fa fa-calendar" aria-hidden="true"></i>Out Of Date<span class="label label-danger pull-right">2</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="work">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4>Công việc liên quan
+                                        <span class="panel-title">
+                                            <a data-toggle="collapse" href="#work"><i class="fa" aria-hidden="true"></i>  </a>
+                                        </span>
+                                    </h4>
+                                </div>
+                                <div id="work" class="panel-collapse collapse in">
+                                    <ul class="list-group">
+                                        <li><a href="#" class="list-group-item"><i class="fa fa-inbox" aria-hidden="true"></i>All</a></li>
+                                        <li><a href="#" class="list-group-item"><i class="fa fa-envelope-o" aria-hidden="true"></i>New</a></li>
+                                        <li><a href="#" class="list-group-item"><i class="fa fa-download" aria-hidden="true"></i>Inprogress</a></li>
+                                        <li><a href="#" class="list-group-item"><i class="fa fa-registered" aria-hidden="true"></i>Resolved</a></li>
+                                        <li><a href="#" class="list-group-item"><i class="fa fa-calendar" aria-hidden="true"></i>Out Of Date</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9 ">
+                <div class="content-right assign">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3 class="title">Danh sách công việc được giao</h3>
+                            <table id="example" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên công việc</th>
+                                        <th>Mức độ ưu tiên</th>
+                                        <th>Người yêu cầu</th>
+                                        <th>Người thực hiện</th>
+                                        <th>Ngày hết hạn</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên công việc</th>
+                                        <th>Mức độ ưu tiên</th>
+                                        <th>Người yêu cầu</th>
+                                        <th>Người thực hiện</th>
+                                        <th>Ngày hết hạn</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <tr class="search">
+                                        <th>STT</th>
+                                        <th>Tên công việc</th>
+                                        <th>Mức độ ưu tiên</th>
+                                        <th>Người yêu cầu</th>
+                                        <th>Người thực hiện</th>
+                                        <th>Ngày hết hạn</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                    <tr class="chua-xem">
+                                        <td>1</td>
+                                        <td>Sửa màn hình</td>
+                                        <td>Cao</td>
+                                        <td>Phạm Tuấn Anh</td>
+                                        <td>PTA</td>
+                                        <td>2017/10/16 19:00</td>
+                                        <td>New</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Sửa bàn phím</td>
+                                        <td>Cao</td>
+                                        <td>Phạm Tuấn Anh</td>
+                                        <td>PTA</td>
+                                        <td>2017/10/15 13:00</td>
+                                        <td>Close</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Active window</td>
+                                        <td>Bình thường</td>
+                                        <td>Phạm Tuấn Anh</td>
+                                        <td>PTA</td>
+                                        <td>2017/10/16 9:00</td>
+                                        <td>New</td>
+                                    </tr>
+                                    <tr class="chua-xem">
+                                        <td>4</td>
+                                        <td>Sửa màn hình</td>
+                                        <td>Cao</td>
+                                        <td>Phạm Tuấn Anh</td>
+                                        <td>PTA</td>
+                                        <td>2017/10/16 19:00</td>
+                                        <td>New</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Sửa bàn phím</td>
+                                        <td>Cao</td>
+                                        <td>Phạm Tuấn Anh</td>
+                                        <td>PTA</td>
+                                        <td>2017/10/15 13:00</td>
+                                        <td>Close</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Active window</td>
+                                        <td>Bình thường</td>
+                                        <td>Phạm Tuấn Anh</td>
+                                        <td>PTA</td>
+                                        <td>2017/10/16 9:00</td>
+                                        <td>New</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <p class="text-center">&copy; 2017</p>
+        </div>
+    </footer>
+
+    
+    <script type="text/javascript" src="vendor/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="vendor/tablefilter/tablefilter.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.js"></script>
+
+    <!--  <script type="text/javascript" src="js/script.js"></script> -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var table = $('#example').DataTable();
+
+            table
+            .columns( '.status' )
+            .search( 'Important' )
+            .draw();
+        } );
+        // Setup - add a text input to each footer cell
+$('#example tr.search th').each( function () {
+    var title = $('#example thead th').eq( $(this).index() ).text();
+    $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+} );
+ 
+// DataTable
+var table = $('#example').DataTable();
+ 
+// Apply the filter
+table.columns().every( function () {
+    var column = this;
+ 
+    $( 'input', this.body() ).on( 'keyup change', function () {
+        column
+            .search( this.value )
+            .draw();
+    } );
+} );
+var table = $('#example').DataTable();
+ 
+table.columns( '.select-filter' ).every( function () {
+    var that = this;
+ 
+    // Create the select list and search operation
+    var select = $('<select />')
+        .appendTo(
+            this.body()
+        )
+        .on( 'change', function () {
+            that
+                .search( $(this).val() )
+                .draw();
+        } );
+ 
+    // Get the search data for the first column and add to the select list
+    this
+        .cache( 'search' )
+        .sort()
+        .unique()
+        .each( function ( d ) {
+            select.append( $('<option value="'+d+'">'+d+'</option>') );
+        } );
+} );
+    </script>
+</body>
+</html>

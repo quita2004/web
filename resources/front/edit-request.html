@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Edit IT</title>
+
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/fontawesome/css/font-awesome.min.css">
+
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+<body>
+	<header>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<h2>Request IT</h2>
+				</div>
+				<div class="col-md-6 ">
+					<ul class="pull-right header-right">
+						<li><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+						<li><a href="#">IT</a></li>
+						<li>Request IT</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div class=" container">
+		<div class="row">
+			<div class="col-sm-3 ">
+				<div class="content-left">
+					<div class="add-request">
+						<a href="#" class="btn btn-danger"><i class="fa fa-plus" aria-hidden="true"></i> Thêm yêu cầu</a>
+					</div>
+					<div class="myrequest">
+						<div class="panel-group">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4>Việc tôi yêu cầu
+										<span class="panel-title">
+											<a data-toggle="collapse" href="#myrequest"><i class="fa" aria-hidden="true"></i> </a>
+										</span>
+									</h4>
+									
+								</div>
+								<div id="myrequest" class="panel-collapse collapse in">
+									<ul class="list-group">
+										<li><a href="#" class="list-group-item"><i class="fa fa-inbox" aria-hidden="true"></i>All<span class="label label-primary pull-right">1</span><span class="chuaxem"></span></a></li>
+										<li><a href="#" class="list-group-item"><i class="fa fa-envelope-o" aria-hidden="true"></i>New<span class="label label-success pull-right">2</span></a></li>
+										<li><a href="#" class="list-group-item"><i class="fa fa-download" aria-hidden="true"></i>Inprogress<span class="label label-info pull-right">3</span></a></li>
+										<li><a href="#" class="list-group-item"><i class="fa fa-registered" aria-hidden="true"></i>Resolved<span class="label label-warning pull-right">4</span></a></li>
+										<li><a href="#" class="list-group-item"><i class="fa fa-calendar" aria-hidden="true"></i>Out Of Date<span class="label label-danger pull-right">2</span></a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="work">
+						<div class="panel-group">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4>Công việc liên quan
+										<span class="panel-title">
+											<a data-toggle="collapse" href="#work"><i class="fa" aria-hidden="true"></i>  </a>
+										</span>
+									</h4>
+								</div>
+								<div id="work" class="panel-collapse collapse in">
+									<ul class="list-group">
+										<li><a href="#" class="list-group-item"><i class="fa fa-inbox" aria-hidden="true"></i>All</a></li>
+										<li><a href="#" class="list-group-item"><i class="fa fa-envelope-o" aria-hidden="true"></i>New</a></li>
+										<li><a href="#" class="list-group-item"><i class="fa fa-download" aria-hidden="true"></i>Inprogress</a></li>
+										<li><a href="#" class="list-group-item"><i class="fa fa-registered" aria-hidden="true"></i>Resolved</a></li>
+										<li><a href="#" class="list-group-item"><i class="fa fa-calendar" aria-hidden="true"></i>Out Of Date</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9 ">
+				<div class="content-right edit-request">
+					<div class=" content-right-top">
+						<div class="content-top-header">
+							<div class="row">
+								<div class="col-sm-4">
+									<h3 class="title"><i class="fa fa-pencil" aria-hidden="true"></i> Sửa yêu cầu</h3>
+								</div>
+								<div class="col-sm-8 content-right-btn">
+									<button class="btn btn-default" data-toggle="modal" data-target="#modal-it"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Thay đổi bộ phận IT</button>
+
+									<!-- Modal -->
+									<div class="modal fade" id="modal-it" role="dialog">
+										<div class="modal-dialog">
+
+											<!-- Modal content-->
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h4 class="modal-title"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Thay đổi bộ phận IT</h4>
+												</div>
+												<div class="modal-body">
+													<div>
+														<label class="control-label" for="textinput">Bộ phận IT</label>  
+														<select class="form-control">
+															<option>Hanoi-IT</option>
+															<option>Danang-IT</option>
+														</select>
+													</div>
+													<br>
+													<div>
+														<label class="control-label" for="">Lý do thay đổi <span class="important">*</span></label>  
+														<input id=""  type="text" placeholder="Lý do thay đổi" class="form-control">
+													</div>
+													
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary" data-dismiss="modal">Thay đổi</button>
+													<button type="button" class="btn btn-default" data-dismiss="modal">Huỷ</button>
+												</div>
+											</div>
+
+										</div>
+									</div>
+									
+									<button class="btn btn-default" data-toggle="modal" data-target="#modal-ut"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Thay đổi mức độ ưu tiên</button>
+									<!-- Modal -->
+									<div class="modal fade" id="modal-ut" role="dialog">
+										<div class="modal-dialog">
+
+											<!-- Modal content-->
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h4 class="modal-title"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Thay đổi mức độ ưu tiên</h4>
+												</div>
+												<div class="modal-body">
+													<div>
+														<label class="control-label" for="uutien">Mức độ ưu tiên</label>  
+														<select class="form-control" id="uutien">
+															<option>Bình thường</option>
+															<option>Cao</option>
+															<option>Thấp</option>
+														</select>
+													</div>
+													<br>
+													<div>
+														<label class="control-label" for="">Lý do thay đổi <span class="important">*</span></label>  
+														<input id=""  type="text" placeholder="Lý do thay đổi" class="form-control">
+													</div>
+													
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary" data-dismiss="modal">Thay đổi</button>
+													<button type="button" class="btn btn-default" data-dismiss="modal">Huỷ</button>
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+									<button class="btn btn-default" data-toggle="modal" data-target="#modal-dl"><i class="fa fa-calendar-o" aria-hidden="true"></i> Thay đổi deadline</button>
+									<!-- Modal -->
+									<div class="modal fade" id="modal-dl" role="dialog">
+										<div class="modal-dialog">
+
+											<!-- Modal content-->
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h4 class="modal-title"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Thay đổi deadline</h4>
+												</div>
+												<div class="modal-body">
+													<div>
+														<label class="control-label">Ngày hết hạn <span class="important">*</span></label>
+														<input class="form-control" type="date"  >
+													</div>
+													<br>
+													<div>
+														<label class="control-label" for="">Lý do thay đổi <span class="important">*</span></label>  
+														<input id=""  type="text" placeholder="Lý do thay đổi" class="form-control">
+													</div>
+													
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary" data-dismiss="modal">Thay đổi</button>
+													<button type="button" class="btn btn-default" data-dismiss="modal">Huỷ</button>
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+
+									<button class="btn btn-default" data-toggle="modal" data-target="#modal-lq"><i class="fa fa-user" aria-hidden="true"></i> Thay đổi người liên quan</button>
+									<!-- Modal -->
+									<div class="modal fade" id="modal-lq" role="dialog">
+										<div class="modal-dialog">
+
+											<!-- Modal content-->
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h4 class="modal-title"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Thay đổi người liên quan</h4>
+												</div>
+												<div class="modal-body">
+													<div>
+														<label class="control-label" for="textinput">Người liên quan</label>  
+														<input id="textinput"  type="text" class="form-control">
+													</div>
+													<br>
+													<div>
+														<label class="control-label" for="">Lý do thay đổi <span class="important">*</span></label>  
+														<input id=""  type="text" placeholder="Lý do thay đổi" class="form-control">
+													</div>
+													
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary" data-dismiss="modal">Thay đổi</button>
+													<button type="button" class="btn btn-default" data-dismiss="modal">Huỷ</button>
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+
+									<button class="btn btn-default" data-toggle="modal" data-target="#modal-as"><i class="fa fa-hand-o-right" aria-hidden="true"></i> Asign</button>
+									<!-- Modal -->
+									<div class="modal fade" id="modal-as" role="dialog">
+										<div class="modal-dialog">
+
+											<!-- Modal content-->
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h4 class="modal-title"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Thay đổi người thực hiện</h4>
+												</div>
+												<div class="modal-body">
+													<div>
+														<label class="control-label" for="textinput">Người thực hiện</label>  
+														<input id="textinput"  type="text" class="form-control">
+													</div>
+													<br>
+													<div>
+														<label class="control-label" for="">Lý do thay đổi <span class="important">*</span></label>  
+														<input id=""  type="text" placeholder="Lý do thay đổi" class="form-control">
+													</div>
+													
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary" data-dismiss="modal">Thay đổi</button>
+													<button type="button" class="btn btn-default" data-dismiss="modal">Huỷ</button>
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+
+									<button class="btn btn-default" data-toggle="modal" data-target="#modal-tt"><i class="fa fa-exchange" aria-hidden="true"></i> Thay đổi trạng thái</button>
+									<!-- Modal -->
+									<div class="modal fade" id="modal-tt" role="dialog">
+										<div class="modal-dialog">
+
+											<!-- Modal content-->
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h4 class="modal-title"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Thay đổi trạng thái</h4>
+												</div>
+												<div class="modal-body">
+													<div>
+														<label class="control-label" for="textinput">Trạng thái</label>  
+														<input id="textinput"  type="text" class="form-control">
+													</div>
+													<br>
+													<div>
+														<label class="control-label" for="">Lý do thay đổi <span class="important">*</span></label>  
+														<input id=""  type="text" placeholder="Lý do thay đổi" class="form-control">
+													</div>
+													
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary" data-dismiss="modal">Thay đổi</button>
+													<button type="button" class="btn btn-default" data-dismiss="modal">Huỷ</button>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="content-top-info">
+							<div class="row">
+								<div class="col-sm-3 pad-10">
+									<span class="title">Ngày tạo:</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="data">16/10/2017 18:37 CH</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="title">Ngày hết hạn:</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="data">26/10/2017 18:37 CH</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="title">Người yêu cầu:</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="data">Phạm Tuấn Anh(anhpt)</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="title">Người thực hiện:</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="data">NA(nguyenanh)</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="title">Bộ phận IT:</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="data">danang-IT</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="title">Mức độ ưu tiên:</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="data">Bình thường</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="title">trạng thái:</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="data">New</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="title">người liên quan:</span>
+								</div>
+								<div class="col-sm-3 pad-10">
+									<span class="data"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="content-right-bottom">
+						<h3 class="title"><i class="fa fa-user" aria-hidden="true"></i> Nội dung</h3>
+						<div class="user">
+							<div class="avata"><img src="img/avata.jpg" alt=""></div>
+							<div class="info">
+								<a href="#">Phạm Tuấn Anh</a>
+								<p class="time-post"><i class="fa fa-clock-o" aria-hidden="true"></i>02:06 PM Today</p>
+							</div>
+						</div>
+						<div class="content-post">
+							<p>Bị hỏng màn hình máy tính</p>
+						</div>
+						<div class="comment">
+							<div class="user">
+								<div class="avata"><img src="img/avata.jpg" alt=""></div>
+								<div class="info">
+									<a href="#">Nguyễn Anh</a>
+									<p class="time-post"><i class="fa fa-clock-o" aria-hidden="true"></i>02:06 PM Today</p>
+								</div>
+							</div>
+							<div class="content-comment">
+								<p>Thay đổi mức độ ưu tiên: Trung bình => Cao</p>
+							</div>
+						</div>
+						<h4 class="title-comment">Bình luận</h4>
+						<div class=" form-comment">
+							<textarea class="form-control ckeditor" id="demo" rows="10" ></textarea>
+							<button class="btn btn-primary">Gửi bình luận</button>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div class="container">
+			<p class="text-center">&copy; 2017</p>
+		</div>
+	</footer>
+
+	<script type="text/javascript" src="vendor/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" language="javascript" src="vendor/ckeditor/ckeditor.js" ></script>
+</body>
+</html>
