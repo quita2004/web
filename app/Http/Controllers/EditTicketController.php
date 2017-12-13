@@ -22,7 +22,7 @@ class EditTicketController extends Controller
         $ticket = Tickets::find($idticket);
         $relaters = TicketRelaters::where('ticket_id',$idticket)->get();
         $comment = TicketComment::where('ticket_id',$idticket)->get();
-        $employees = Employees::all();
+        $employees = Employees::where('team_id',$ticket->team_id)->get();
 
         $user = Auth::user();
 
@@ -94,10 +94,13 @@ class EditTicketController extends Controller
         $positionChange['edit'] = isEdit($idticket);
 
         //danh dau da doc
-        $ticket_read = new TicketRead;
-        $ticket_read->ticket_id = $idticket;
-        $ticket_read->employee_id = $user->id;
-        $ticket_read->save();
+        if(!isRead($idticket)){
+            $ticket_read = new TicketRead;
+            $ticket_read->ticket_id = $idticket;
+            $ticket_read->employee_id = $user->id;
+            $ticket_read->save();
+        }
+        
 
         return view('editticket/editTicket', ['ticket'=>$ticket, 'relaters'=>$relaters, 'comment'=>$comment, 'employees'=>$employees, 'positionStatus'=>$positionStatus, 'positionChange'=>$positionChange]);
     }
@@ -117,40 +120,64 @@ class EditTicketController extends Controller
     }
 
     public function postEditTeamId(Request $request, $idticket){
+        $team = TeamId::where('id', $request->team_id)->get();
         DB::table('tickets')->where('id', $idticket)->update(['team_id' => $request->team_id]);
+        DB::table('tickets')->where('id', $idticket)->update(['assigned_to' => $team[0]->id_leader]);
+
         return redirect('user/edit/'.$idticket)->with('thongbao','Thay đổi bộ phận IT thành công');
     }
 
     public function postEditPriority(Request $request, $idticket){
-        DB::table('tickets')->where('id', $idticket)->update(['priority' => $request->priority]);
         $ticket = Tickets::find($idticket);
+        $oldpriority = $ticket->priority;
+        $priority = $request->priority;
+        DB::table('tickets')->where('id', $idticket)->update(['priority' => $request->priority]);
+        if($oldpriority == 1){
+            $oldpriority = 'Thấp';
+        } else if($oldpriority == 2){
+            $oldpriority = 'Trung bình';
+        } else if($oldpriority == 3){
+            $oldpriority = 'Cao';
+        } else if($oldpriority == 4){
+            $oldpriority = 'Khẩn cấp';
+        } 
+        if($priority == 1){
+            $priority = 'Thấp';
+        } else if($priority == 2){
+            $priority = 'Trung bình';
+        } else if($priority == 3){
+            $priority = 'Cao';
+        } else if($priority == 4){
+            $priority = 'Khẩn cấp';
+        } 
 
         $user = Auth::user();
         $comment = $request->change_priority;
         $ticket_comment = new TicketComment;
         $ticket_comment->ticket_id = $idticket;
         $ticket_comment->employee_id = $user->id;
-        $ticket_comment->content = $comment;
+        $ticket_comment->content = 'Lý do: '.$comment;
         $ticket_comment->type = 2;
-        $ticket_comment->note = 'Thay đổi mức độ ưu tiên';
+        $ticket_comment->note = 'Thay đổi mức độ ưu tiên: '.$oldpriority.' => '.$priority;
         $ticket_comment->save();
 
-        $comment = TicketComment::where('ticket_id',$idticket)->get();
 
         return redirect('user/edit/'.$idticket)->with('thongbao', 'Thay đổi mức độ ưu tiên thành công');
     }
     public function postEditDeadline(Request $request, $idticket){
-        DB::table('tickets')->where('id', $idticket)->update(['deadline' => $request->date]);
         $ticket = Tickets::find($idticket);
+        $olddeadline = substr( $ticket->deadline,  0, 10 );
+        DB::table('tickets')->where('id', $idticket)->update(['deadline' => $request->date]);
+        $newdeadline = substr( $ticket->deadline,  0, 10 );
 
         $user = Auth::user();
         $comment = $request->change_deadline;
         $ticket_comment = new TicketComment;
         $ticket_comment->ticket_id = $idticket;
         $ticket_comment->employee_id = $user->id;
-        $ticket_comment->content = $comment;
+        $ticket_comment->content = 'Lý do: '.$comment;
         $ticket_comment->type = 3;
-        $ticket_comment->note = 'Thay đổi deadline';
+        $ticket_comment->note = 'Thay đổi deadline: '.$olddeadline.' => '.$newdeadline;
         $ticket_comment->save();
 
         return redirect('user/edit/'.$idticket)->with('thongbao', 'Thay đổi deadline thành công');

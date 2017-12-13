@@ -28,10 +28,10 @@
 					<div class="col-sm-6 form-group">
 						<label class="control-label" for="uutien">Mức độ ưu tiên</label>  
 						<select class="form-control" id="uutien" name="uutien">
-							<option {{ old('uutien') == 1 ? ' selected' : '' }} value="0">Bình thường</option>
-							<option {{ old('uutien') == 3 ? ' selected' : '' }} value="3">Khẩn cấp</option>
-							<option {{ old('uutien') == 2 ? ' selected' : '' }} value="2">Cao</option>
-							<option {{ old('uutien') == 0 ? ' selected' : '' }} value="1">Thấp</option>
+							<option {{ old('uutien') == 2 ? ' selected' : '' }} value="1">Bình thường</option>
+							<option {{ old('uutien') == 4 ? ' selected' : '' }} value="4">Khẩn cấp</option>
+							<option {{ old('uutien') == 3 ? ' selected' : '' }} value="3">Cao</option>
+							<option {{ old('uutien') == 1 ? ' selected' : '' }} value="2">Thấp</option>
 						</select>
 					</div>
 					<div class="col-sm-6 form-group">
@@ -55,7 +55,7 @@
 					</div>
 					<div class="col-sm-12 form-group">
 						<label class="control-label" for="demo">Nội dung <span class="important">*</span></label>  
-						<textarea class="form-control ckeditor" name="content" id="demo" rows="15" ></textarea>
+						<textarea class="form-control " name="content" id="" rows="10" ></textarea>
 					</div>
 					<div class="col-sm-12 form-group">
 						<input class="form-control-file" accept="image/png, image/jpeg, image/gif" type="file" name="hinh">

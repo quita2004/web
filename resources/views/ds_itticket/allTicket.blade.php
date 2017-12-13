@@ -28,16 +28,16 @@
 								<a href="user/edit/{{$tk->id}}">{{$tk->subject}}</a>
 							</td>
 							<td>
-								@if($tk->priority == 0)
+								@if($tk->priority == 1)
 								{{'Thấp'}}
 								@endif
-								@if($tk->priority == 1)
+								@if($tk->priority == 2)
 								{{'Bình thường'}}
 								@endif
-								@if($tk->priority == 2)
+								@if($tk->priority == 3)
 								{{'Cao'}}
 								@endif
-								@if($tk->priority == 3)
+								@if($tk->priority == 4)
 								{{'Khẩn cấp'}}
 								@endif
 							</td>

@@ -40,29 +40,29 @@ function checkPositionStatus($ticket){
     //leader team
     if(is_leader(Auth::user()->id) > 0){
         if($status == 1){
-         array_push($result, 2); 
-     } else if($status == 2){
-         array_push($result, 3); 
-     } else if($status == 3){
-         array_push($result, 4); 
-     } else if($status == 4){
-         array_push($result, 2); 
-     }
- }
+           array_push($result, 2); 
+       } else if($status == 2){
+           array_push($result, 3); 
+       } else if($status == 3){
+           array_push($result, 4); 
+       } else if($status == 4){
+           array_push($result, 2); 
+       }
+   }
 
    //nguoi quyen cong ty
- if(is_leader(Auth::user()->id) == 2){
+   if(is_leader(Auth::user()->id) == 2){
     array_push($result, 6);
 
     if($status == 1){
-     array_push($result, 2); 
- } else if($status == 2){
-     array_push($result, 3); 
- } else if($status == 3){
-     array_push($result, 4); 
- } else if($status == 4){
-     array_push($result, 2, 5); 
- }
+       array_push($result, 2); 
+   } else if($status == 2){
+       array_push($result, 3); 
+   } else if($status == 3){
+       array_push($result, 4); 
+   } else if($status == 4){
+       array_push($result, 2, 5); 
+   }
 }
 
 return $result;
@@ -177,6 +177,7 @@ function isViewIt(){
 }
 
 function isRead($idticket){
+
     $result = false;
     $ticket = TicketRead::where('ticket_id', $idticket)->get();
 
@@ -190,5 +191,167 @@ function isRead($idticket){
 
     return $result;
 }
+
+function readMyTicket($type){
+    $result = 0;
+    $user = Auth::user();
+
+    //all
+    if($type == 0){
+        $ticket = Tickets::where('create_by', $user->id)->get();
+    } else if($type > 0 && $type < 4){
+        //trang thai = New, Inprogress, Resolved
+        $ticket = Tickets::where('create_by', $user->id)->where('status', $type)->get();
+    } else if($type == 4){
+        //het han
+        $time = new DateTime();
+        $ticket = Tickets::where('create_by', '=', $user->id)->where('deadline', '<',  $time)->where('status', '!=', 5)->get();
+    }
+
+    //dem ticket chua doc
+    if(isset($ticket)){
+        foreach($ticket as $tk){
+            if(!isRead($tk->id)){
+                $result ++;
+            }
+        }
+    }
+    
+
+    return $result;
+}
+
+
+function readRelaterTicket($type){
+    $result = 0;
+    $user = Auth::user();
+    $reticket = TicketRelaters::where('employee_id','=', $user->id)->get();
+    $ticket = array();
+
+    if($type == 0){
+        //new
+        foreach ($reticket as $rt) {
+            array_push($ticket,$rt->ticketTo);
+        }
+    } else if($type > 0 && $type < 4){
+        //trang thai = New, Inprogress, Resolved
+        foreach ($reticket as $rt) {
+            if($rt->ticketTo->status == $type){
+                array_push($ticket,$rt->ticketTo);
+            }
+
+        }
+    } else if($type == 4){
+        //het han
+        $time = new DateTime();
+        foreach ($reticket as $rt) {
+            if($rt->ticketTo->deadline < $time && $rt->ticketTo->status != 5){
+                array_push($ticket,$rt->ticketTo);
+            }
+
+        }
+    }
+
+    //dem trang thai chua doc
+    if(isset($ticket)){
+        foreach($ticket as $tk){
+            if(!isRead($tk->id)){
+                $result ++;
+            }
+        }
+    }
+
+
+    return $result;
+}
+
+function readAssingTicket($type){
+    $result = 0;
+    $user = Auth::user();
+
+    //all
+    if($type == 0){
+        $ticket = Tickets::where('assigned_to', $user->id)->get();
+    } else if($type > 0 && $type < 5){
+        //trang thai = New, Inprogress, Resolved
+        $ticket = Tickets::where('assigned_to', $user->id)->where('status', $type)->get();
+    } else if($type == 5){
+        //het han
+        $time = new DateTime();
+        $ticket = Tickets::where('assigned_to', '=', $user->id)->where('deadline', '<',  $time)->where('status', '!=', 5)->get();
+    }
+
+    //dem ticket chua doc
+    if(isset($ticket)){
+        foreach($ticket as $tk){
+            if(!isRead($tk->id)){
+                $result ++;
+            }
+        }
+    }
+    
+
+    return $result;
+}
+
+function readTeamTicket($type){
+    $result = 0;
+    $user = Auth::user();
+
+    //all
+    if($type == 0){
+        $ticket = Tickets::where('team_id', $user->team_id)->get();
+    } else if($type > 0 && $type < 6){
+        //trang thai = New, Inprogress, Resolved
+        $ticket = Tickets::where('team_id', $user->team_id)->where('status', $type)->get();
+    } else if($type == 6){
+        //het han
+        $time = new DateTime();
+        $ticket = Tickets::where('team_id', '=', $user->team_id)->where('deadline', '<',  $time)->where('status', '!=', 5)->get();
+    }
+
+    //dem ticket chua doc
+    if(isset($ticket)){
+        foreach($ticket as $tk){
+            if(!isRead($tk->id)){
+                $result ++;
+            }
+        }
+    }
+    
+
+    return $result;
+}
+
+function readItTicket($type){
+    $result = 0;
+    $user = Auth::user();
+
+    //all
+    if($type == 0){
+        $ticket = Tickets::get();
+    } else if($type > 0 && $type < 6){
+        //trang thai = New, Inprogress, Resolved
+        $ticket = Tickets::where('status', $type)->get();
+    } else if($type == 6){
+        //het han
+        $time = new DateTime();
+        $ticket = Tickets::where('deadline', '<',  $time)->where('status', '!=', 5)->get();
+    }
+
+    //dem ticket chua doc
+    if(isset($ticket)){
+        foreach($ticket as $tk){
+            if(!isRead($tk->id)){
+                $result ++;
+            }
+        }
+    }
+    
+
+    return $result;
+}
+
+
 
 ?>

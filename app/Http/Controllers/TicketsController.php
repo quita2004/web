@@ -80,6 +80,7 @@ class TicketsController extends Controller
 	public function getAllMyTicket(){
 		$user = Auth::user();
 		$ticket = Tickets::where('create_by', '=', $user->id)->get();
+
 		return view('ds_myticket/allTicket',['ticket'=>$ticket, 'page'=>'Tất cả']);
 	}
 	public function getNewMyTicket(){

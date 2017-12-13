@@ -7,7 +7,7 @@
 		<div class=" content-right-top">
 			<div class="content-top-header">
 				<div class="row">
-
+					<input type="hidden" name="" id="idticket" value="{{$ticket->id}}">
 					@if(session('thongbao'))
 					<div class="alert alert-success">
 						{{session('thongbao')}}
@@ -76,10 +76,10 @@
 											<div>
 												<label class="control-label" for="priority">Mức độ ưu tiên</label>  
 												<select class="form-control" id="priority" name="priority">
-													<option {{ $ticket->priority == 1 ? ' selected' : '' }} value="0">Bình thường</option>
-													<option {{ $ticket->priority == 3 ? ' selected' : '' }} value="3">Khẩn cấp</option>
-													<option {{ $ticket->priority == 2 ? ' selected' : '' }} value="2">Cao</option>
-													<option {{ $ticket->priority == 0 ? ' selected' : '' }} value="1">Thấp</option>
+													<option {{ $ticket->priority == 2 ? ' selected' : '' }} value="2">Bình thường</option>
+													<option {{ $ticket->priority == 4 ? ' selected' : '' }} value="4">Khẩn cấp</option>
+													<option {{ $ticket->priority == 3 ? ' selected' : '' }} value="3">Cao</option>
+													<option {{ $ticket->priority == 1 ? ' selected' : '' }} value="1">Thấp</option>
 												</select>
 											</div>
 											<br>
@@ -363,16 +363,16 @@
 					</div>
 					<div class="col-sm-3 pad-10">
 						<span class="data">
-							@if($ticket->priority == 0)
+							@if($ticket->priority == 1)
 							{{'Thấp'}}
 							@endif
-							@if($ticket->priority == 1)
+							@if($ticket->priority == 2)
 							{{'Bình thường'}}
 							@endif
-							@if($ticket->priority == 2)
+							@if($ticket->priority == 3)
 							{{'Cao'}}
 							@endif
-							@if($ticket->priority == 3)
+							@if($ticket->priority == 4)
 							{{'Khẩn cấp'}}
 							@endif
 						</span>
@@ -421,7 +421,7 @@
 			<h3 class="title"><i class="fa fa-user" aria-hidden="true"></i> Nội dung</h3>
 			<br>
 			<div>
-				{!!$ticket->content!!}
+				{!! $ticket->content !!}
 			</div>
 			@if($ticket->image)
 
@@ -438,8 +438,11 @@
 					<p class="time-post"><i class="fa fa-clock-o" aria-hidden="true"></i>{{$cm->created_at}}</p>
 				</div>
 			</div>
+			
 			<div class="content-post">
-				<p>{!!$cm->content!!}</p>
+				<p>{{ $cm->note }}</p>
+				<p>{{$cm->content}}</p>
+				
 			</div>
 			@endforeach
 
@@ -447,10 +450,10 @@
 			<h4 class="title-comment">Bình luận</h4>
 
 			<div class=" form-comment">
-				<form action="user/edit/{{$ticket->id}}/comment" method="POST">
-					<input type="hidden" name="_token" value="{{csrf_token()}}">
-					<textarea class="form-control ckeditor" id="demo" name="comment" rows="10" ></textarea>
-					<button class="btn btn-primary" type="submit">Gửi bình luận</button>
+				<form action="#" method="POST">
+					
+					<textarea class="form-control " id="comment" name="comment" rows="10" required></textarea>
+					<button class="btn btn-primary btn-comment" type="submit">Gửi bình luận</button>
 				</form>
 
 			</div>
@@ -461,6 +464,34 @@
 </div>
 @endsection
 @section("script")
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.btn-comment').click(function(e){
+			e.preventDefault();
+			var idticket = $('#idticket').val();
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
+			console.log($('#comment').val());
+			$.ajax({
+				'url' : 'user/edit/'+idticket+'/comment',
+				'data' : 
+				{
+					'comment' : $('#comment').val()
+				},
+				'type' : 'POST',
+				},
+				// success: function(data){
+				// 	console.log('data');
+				// }
+			);
+		});
+	});
+</script>
+
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -539,4 +570,7 @@
 
 
 </script>
+
+
+
 @endsection
