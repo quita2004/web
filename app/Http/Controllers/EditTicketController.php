@@ -107,24 +107,67 @@ class EditTicketController extends Controller
 
     public function postComment(Request $request, $idticket){
         $user = Auth::user();
-        $comment = $request->comment;
-        $ticket_comment = new TicketComment;
-        $ticket_comment->ticket_id = $idticket;
-        $ticket_comment->employee_id = $user->id;
-        $ticket_comment->content = $comment;
-        $ticket_comment->type = 0;
-        $ticket_comment->note = '';
-        $ticket_comment->save();
+        if($request -> ajax()){
+            if(isset($request->comment)){
+                $id = DB::table('ticket_comment')->insertGetId(
+                    [
+                     'ticket_id' => $idticket,
+                     'employee_id' => $user->id,
+                     'content' => $request->comment,
+                     'type' => 0,
+                     'note' => ''
+                 ]
+             );
 
-        return redirect('user/edit/'.$idticket);
+                $comment = TicketComment::where('ticket_id',$idticket)->get();
+                foreach($comment as $ticket_comment){
+                    echo "<div class='comment-detail'>
+                    <div class='user'>
+                    <div class='avata'><img src='img/avata.jpg' alt=''></div>
+                    <div class='info'>
+                    <a href='#'>".$ticket_comment->employee[0]->name."</a>
+                    <p class='time-post'><i class='fa fa-clock-o' aria-hidden='true'></i>".$ticket_comment->created_at."</p>
+                    </div>
+                    </div>
+
+                    <div class='content-post'>
+                    <p>".$ticket_comment->note."</p>
+                    <p>".$ticket_comment->content."</p>
+                    
+                    </div>
+                    </div>";
+                }
+            }
+        }
+
+
+
+
     }
 
     public function postEditTeamId(Request $request, $idticket){
-        $team = TeamId::where('id', $request->team_id)->get();
-        DB::table('tickets')->where('id', $idticket)->update(['team_id' => $request->team_id]);
-        DB::table('tickets')->where('id', $idticket)->update(['assigned_to' => $team[0]->id_leader]);
+        if($request -> ajax()){
+            
+            $team = TeamId::where('id', $request->team_id)->get();
+            DB::table('tickets')->where('id', $idticket)->update(['team_id' => $request->team_id]);
+            DB::table('tickets')->where('id', $idticket)->update(['assigned_to' => $team[0]->id_leader]);
+            $ticket = Tickets::find($idticket);
+            $assign = Employees::find($team[0]->id_leader);
 
-        return redirect('user/edit/'.$idticket)->with('thongbao','Thay đổi bộ phận IT thành công');
+            $employees = Employees::where('team_id',$ticket->team_id)->get();
+
+            $list_assign = "<label class='control-label' for='assign'>Thay đổi người thực hiện</label>
+            <select class='form-control' id='assign' name='assign'>";
+            foreach($employees as $e){
+                $select = $ticket->assigned_to == $e->id ? ' selected ' : '';
+                $list_assign .=" <option value='".$e->id."'".$select.">". $e->name ."</option>";
+            }
+            $list_assign.= "</select>";
+            return ['teamid'=>$team[0]->name, 'assign'=> $assign->name, 'list_assign'=>$list_assign];
+
+        }
+
+
     }
 
     public function postEditPriority(Request $request, $idticket){

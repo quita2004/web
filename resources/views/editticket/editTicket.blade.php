@@ -34,7 +34,7 @@
 										<button type="button" class="close" data-dismiss="modal">&times;</button>
 										<h4 class="modal-title"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Thay đổi bộ phận IT</h4>
 									</div>
-									<form action="user/edit/{{$ticket->id}}/teamid" method="POST">
+									<form action="#" method="POST">
 										<div class="modal-body">
 
 											<input type="hidden" name="_token" value="{{csrf_token()}}">
@@ -48,7 +48,7 @@
 											
 										</div>
 										<div class="modal-footer">
-											<button type="submit" class="btn btn-primary btn-teamid" id="abc">Thay đổi</button>
+											<button type="submit" class="btn btn-primary btn-teamid" id="abc" data-dismiss="modal">Thay đổi</button>
 											<button type="button" class="btn btn-default" data-dismiss="modal">Huỷ</button>
 										</div>
 									</form>
@@ -196,7 +196,7 @@
 									<form action="user/edit/{{$ticket->id}}/assign" method="POST">
 										<input type="hidden" name="_token" value="{{csrf_token()}}">
 										<div class="modal-body">
-											<div>
+											<div class="change-assign">
 												<label class="control-label" for="assign">Người thực hiện</label>  
 												<select class="form-control" id="assign" name="assign">
 													@foreach($employees as $e)
@@ -343,13 +343,13 @@
 						<span class="title">Người thực hiện:</span>
 					</div>
 					<div class="col-sm-3 pad-10">
-						<span class="data">{{$ticket->ticketAssignedTo[0]->name}}</span>
+						<span class="data-assign">{{$ticket->ticketAssignedTo[0]->name}}</span>
 					</div>
 					<div class="col-sm-3 pad-10">
 						<span class="title">Bộ phận IT:</span>
 					</div>
 					<div class="col-sm-3 pad-10">
-						<span class='data'>
+						<span class='data-teamid'>
 							@if($ticket->team_id == 1)
 							{{'Hanoi - IT'}}
 							@endif
@@ -430,21 +430,25 @@
 			</div>
 			@endif
 			<h3 class="title-comment"><i class="fa fa-comments" aria-hidden="true"></i> Bình luận</h3>
-			@foreach($comment as $cm)
-			<div class="user">
-				<div class="avata"><img src="img/avata.jpg" alt=""></div>
-				<div class="info">
-					<a href="#">{{$cm->employee[0]->name}}</a>
-					<p class="time-post"><i class="fa fa-clock-o" aria-hidden="true"></i>{{$cm->created_at}}</p>
+			<div class="comment-list">
+				@foreach($comment as $cm)
+				<div class="comment-detail">
+					<div class="user">
+						<div class="avata"><img src="img/avata.jpg" alt=""></div>
+						<div class="info">
+							<a href="#">{{$cm->employee[0]->name}}</a>
+							<p class="time-post"><i class="fa fa-clock-o" aria-hidden="true"></i>{{$cm->created_at}}</p>
+						</div>
+					</div>
+
+					<div class="content-post">
+						<p>{{ $cm->note }}</p>
+						<p>{{$cm->content}}</p>
+
+					</div>
 				</div>
+				@endforeach
 			</div>
-			
-			<div class="content-post">
-				<p>{{ $cm->note }}</p>
-				<p>{{$cm->content}}</p>
-				
-			</div>
-			@endforeach
 
 			@if($positionChange['comment'] == 1)
 			<h4 class="title-comment">Bình luận</h4>
@@ -452,7 +456,7 @@
 			<div class=" form-comment">
 				<form action="#" method="POST">
 					
-					<textarea class="form-control " id="comment" name="comment" rows="10" required></textarea>
+					<textarea class="form-control " id="inp-comment" name="comment" rows="10" ></textarea>
 					<button class="btn btn-primary btn-comment" type="submit">Gửi bình luận</button>
 				</form>
 
@@ -467,26 +471,55 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('.btn-comment').click(function(e){
+		var idticket = $('#idticket').val();
+		$('.btn-teamid').click(function(e){
 			e.preventDefault();
-			var idticket = $('#idticket').val();
+			
 			$.ajaxSetup({
 				headers: {
 					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 				}
 			});
-			console.log($('#comment').val());
+			$.ajax({
+				'url' : 'user/edit/'+idticket+'/teamid',
+				'data' : 
+				{
+					'team_id' : $('#team_id').val()
+				},
+				'type' : 'POST',
+				success: function(data){
+					$('.data-assign').html(data['assign']);
+					$('.data-teamid').html(data['teamid']);
+					$('.change-assign').html(data['list_assign']);
+					oldteamid = $('#team_id').val();
+					alert(oldteamid);
+				}
+			}
+
+			);
+		});
+
+		$('.btn-comment').click(function(e){
+			e.preventDefault();
+			
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
 			$.ajax({
 				'url' : 'user/edit/'+idticket+'/comment',
 				'data' : 
 				{
-					'comment' : $('#comment').val()
+					'comment' : $('#inp-comment').val()
 				},
 				'type' : 'POST',
-				},
-				// success: function(data){
-				// 	console.log('data');
-				// }
+				success: function(data){
+					$('.comment-list').html(data);
+					$('#inp-comment').val('');
+				}
+			}
+
 			);
 		});
 	});
@@ -501,6 +534,8 @@
 		$('.btn-relaters').prop('disabled', true);
 
 		$('.btn-status').prop('disabled', true);
+		$('.btn-comment').prop('disabled', true);
+		
 
 		var oldteamid = $('#team_id').val();
 		var oldpriority = $('#priority').val();
@@ -559,6 +594,14 @@
 				$('.btn-status').prop('disabled', true);
 			}
 		});
+		$('#inp-comment').keyup(function(){
+			if($('#inp-comment').val() != '')
+				$('.btn-comment').prop('disabled', false);
+			else{
+				$('.btn-comment').prop('disabled', true);
+			}
+		});
+		
 	});
 </script>
 
