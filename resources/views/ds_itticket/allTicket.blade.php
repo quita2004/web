@@ -5,8 +5,11 @@
 	<div class="content-right assign">
 		<div class="row">
 			<div class="col-sm-12">
-				<h3 class="title">Danh sách công việc của team <small>{{$page}}</small></h3>
+				<h3 class="title">Danh sách công việc của bộ phận IT <small>{{$page}}</small></h3>
 				<table id="table-assign" class="table">
+					@if(count($ticket) == 0)
+					{{'Không có công việc nào'}}
+					@else
 					<thead>
 						<tr>
 							<th>STT</th>
@@ -22,8 +25,11 @@
 					<tbody>
 						<?php $stt = 0 ?>
 						@foreach($ticket as $tk)
-						<tr class="@if(!isRead($tk->id)) {{' chua-xem '}} @endif">
-							<td>{{$stt+=1}}</td>
+						<tr class="@if(!isRead($tk->id)) {{' chua-xem '}} @endif" id="{{$tk->id}}">
+							<td>
+								{{$stt=$stt+1}}
+								<input type="checkbox" name="{{$tk->id}}" class="checkbox-read"   @if(isRead($tk->id)) {{' checked '}}  @endif >
+							</td>
 							<td>
 								<a href="user/edit/{{$tk->id}}">{{$tk->subject}}</a>
 							</td>
@@ -51,7 +57,7 @@
 									{{'Danang - IT'}}
 								@endif
 							</td>
-							<td>{{$tk->deadline}}</td>
+							<td>{{substr( $tk->deadline,  0, 10 )}}</td>
 							<td>
 								@if($tk->status == 1)
 								{{'New'}}
@@ -76,9 +82,8 @@
 						</tr>
 						
 						@endforeach
-						
-						
 					</tbody>
+					@endif
 				</table>
 			</div>
 		</div>
@@ -128,4 +133,6 @@ var tf = new TableFilter('table-assign', filtersConfig);
 tf.init();
 
 </script>
+
+<script type="text/javascript" src="js/ajax.js"></script>
 @endsection

@@ -7,6 +7,9 @@
 			<div class="col-sm-12">
 				<h3 class="title">Danh sách công việc của team <small>{{$page}}</small></h3>
 				<table id="table-assign" class="table">
+					@if(count($ticket) == 0)
+					{{'Không có công việc nào'}}
+					@else
 					<thead>
 						<tr>
 							<th>STT</th>
@@ -21,8 +24,11 @@
 					<tbody>
 						<?php $stt = 0 ?>
 						@foreach($ticket as $tk)
-						<tr class="@if(!isRead($tk->id)) {{' chua-xem '}} @endif">
-							<td>{{$stt+=1}}</td>
+						<tr class="@if(!isRead($tk->id)) {{' chua-xem '}} @endif" id="{{$tk->id}}">
+							<td>
+								{{$stt=$stt+1}}
+								<input type="checkbox" name="{{$tk->id}}" class="checkbox-read"   @if(isRead($tk->id)) {{' checked '}}  @endif >
+							</td>
 							<td>
 								<a href="user/edit/{{$tk->id}}">{{$tk->subject}}</a>
 							</td>
@@ -42,7 +48,7 @@
 							</td>
 							<td>{{$tk->ticketCreateBy[0]->name}}</td>
 							<td>{{$tk->ticketAssignedTo[0]->name}}</td>
-							<td>{{$tk->deadline}}</td>
+							<td>{{substr( $tk->deadline,  0, 10 )}}</td>
 							<td>
 								@if($tk->status == 1)
 								{{'New'}}
@@ -67,9 +73,8 @@
 						</tr>
 						
 						@endforeach
-						
-						
 					</tbody>
+					@endif
 				</table>
 			</div>
 		</div>
@@ -85,37 +90,39 @@
 <script type="text/javascript">
 // tablefilter
 var filtersConfig = {
-base_path: 'vendor/tablefilter/',
-col_0: 'none',
-col_2: 'select',
-col_6: 'select',
-filters_row_index: 1,
-sort: true,
-btn_reset:true,
-btn_reset_html: '<input type="button" value="Reset bộ lọc" class="btn btn-primary table-reset-search" />',
-loader: true,
-help_instructions: false,
-paging: {
-length: 5,
-results_per_page: ['Hiển thị: ', [5, 10, 15]]
-},
-rows_counter: true,  
-rows_counter_text: "Tổng:",
-col_types: [
-'number', 'string', 'string',
-'string', 'string', 'date',
-'string'
-],
-col_widths: [
-'10%', '20%', '15%',
-'15%', '15%', '15%',
-'10%'
-],
-extensions:[{ name: 'sort' }]
+	base_path: 'vendor/tablefilter/',
+	col_0: 'none',
+	col_2: 'select',
+	col_6: 'select',
+	filters_row_index: 1,
+	sort: true,
+	btn_reset:true,
+	btn_reset_html: '<input type="button" value="Reset bộ lọc" class="btn btn-primary table-reset-search" />',
+	loader: true,
+	help_instructions: false,
+	paging: {
+		length: 5,
+		results_per_page: ['Hiển thị: ', [5, 10, 15]]
+	},
+	rows_counter: true,  
+	rows_counter_text: "Tổng:",
+	col_types: [
+	'number', 'string', 'string',
+	'string', 'string', 'date',
+	'string'
+	],
+	col_widths: [
+	'10%', '20%', '15%',
+	'15%', '15%', '15%',
+	'10%'
+	],
+	extensions:[{ name: 'sort' }]
 };
 
 var tf = new TableFilter('table-assign', filtersConfig);
 tf.init();
 
 </script>
+
+<script type="text/javascript" src="js/ajax.js"></script>
 @endsection

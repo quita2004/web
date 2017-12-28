@@ -22,7 +22,7 @@ class TicketRelatersController extends Controller
     	foreach ($reticket as $rt) {
     		array_push($ticket,$rt->ticketTo);
     	}
-    	return view('ds_reticket/allTicket', ['ticket'=>$ticket, 'page'=>'Tất cả']);
+    	return view('ds_reticket/allTicket', ['ticket'=>$ticket, 'page'=>'Tất cả', 'site'=>21]);
     }
     public function getNewReTicket(){
     	$user = Auth::user();
@@ -34,7 +34,7 @@ class TicketRelatersController extends Controller
     		}
     		
     	}
-    	return view('ds_reticket/allTicket', ['ticket'=>$ticket, 'page'=>'New']);
+    	return view('ds_reticket/allTicket', ['ticket'=>$ticket, 'page'=>'New', 'site'=>22]);
     }
     public function getInprogressReTicket(){
     	$user = Auth::user();
@@ -46,7 +46,7 @@ class TicketRelatersController extends Controller
     		}
     		
     	}
-    	return view('ds_reticket/allTicket', ['ticket'=>$ticket, 'page'=>'Inprogress']);
+    	return view('ds_reticket/allTicket', ['ticket'=>$ticket, 'page'=>'Inprogress', 'site'=>23]);
     }
     public function getResolvedReTicket(){
     	$user = Auth::user();
@@ -58,7 +58,7 @@ class TicketRelatersController extends Controller
     		}
     		
     	}
-    	return view('ds_reticket/allTicket', ['ticket'=>$ticket, 'page'=>'Resolved']);
+    	return view('ds_reticket/allTicket', ['ticket'=>$ticket, 'page'=>'Resolved', 'site'=>24]);
     }
     public function getOutOfDateReTicket(){
     	$user = Auth::user();
@@ -71,6 +71,6 @@ class TicketRelatersController extends Controller
     		}
     		
     	}
-    	return view('ds_reticket/allTicket', ['ticket'=>$ticket,'page'=>'Out Of Date']);
+    	return view('ds_reticket/allTicket', ['ticket'=>$ticket,'page'=>'Out Of Date', 'site'=>25]);
     }
 }

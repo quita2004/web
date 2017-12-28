@@ -52,7 +52,7 @@ Route::group(['prefix'=>'user', 'middleware'=>'login'], function(){
 		Route::get('outofdate', 'TicketAssignController@getOutOfDateTicket');
 	});
 
-	Route::group(['prefix' => 'teamticket'], function() {
+	Route::group(['prefix' => 'teamticket', 'middleware'=>'viewteam'], function() {
 		Route::get('all', 'TeamTicketController@getAllTicket');
 		Route::get('new', 'TeamTicketController@getNewTicket');
 		Route::get('inprogress', 'TeamTicketController@getInprogressTicket');
@@ -61,7 +61,7 @@ Route::group(['prefix'=>'user', 'middleware'=>'login'], function(){
 		Route::get('close', 'TeamTicketController@getCloseTicket');
 	});
 
-	Route::group(['prefix' => 'itticket'], function() {
+	Route::group(['prefix' => 'itticket', 'middleware'=>'viewit'], function() {
 		Route::get('all', 'ItTicketController@getAllTicket');
 		Route::get('new', 'ItTicketController@getNewTicket');
 		Route::get('inprogress', 'ItTicketController@getInprogressTicket');
@@ -80,11 +80,10 @@ Route::group(['prefix'=>'user', 'middleware'=>'login'], function(){
 		    Route::post('/relaters', 'EditTicketController@postEditRelaters');
 		    Route::post('/assign', 'EditTicketController@postEditAssign');
 		    Route::post('/status', 'EditTicketController@postEditStatus');
-		    
 		});
-		
 	});
 	
+	Route::post('AjaxMarkRead/{idticket}', 'AjaxMarkReadController@postRead');
 	
 
 });

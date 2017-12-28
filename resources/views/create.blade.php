@@ -7,14 +7,14 @@
 		<hr>
 		<div class="row">
 			@if(count($errors) > 0)
-			<div class="alert alert-danger">
+			<div class="alert alert-danger thongbao">
 				@foreach($errors->all() as $er)
 				{{$er}}<br/>
 				@endforeach
 			</div>
 			@endif
 			@if(session('thongbao'))
-			<div class="alert alert-success">
+			<div class="alert alert-success thongbao">
 				{{session('thongbao')}}
 			</div>
 			@endif
@@ -23,7 +23,7 @@
 				<div class="form-group">
 					<div class="col-sm-12 form-group">
 						<label class="control-label" for="name">Tên công việc <span class="important">*</span></label> 
-						<input id="name"  type="text" placeholder="Tên công việc" class="form-control" name="name" value="{{old('name')}}">
+						<input id="name"  type="text" placeholder="Tên công việc" class="form-control" name="name" value="{{old('name')}}" required>
 					</div>
 					<div class="col-sm-6 form-group">
 						<label class="control-label" for="uutien">Mức độ ưu tiên</label>  
@@ -36,7 +36,7 @@
 					</div>
 					<div class="col-sm-6 form-group">
 						<label class="control-label" for="date">Ngày hết hạn <span class="important">*</span></label>
-						<input class="form-control" type="date" id="date" name="date" value="{{old('date')}}" >
+						<input class="form-control" type="date" id="date" name="date" value="{{old('date')}}" required>
 					</div>
 					<div class="col-sm-6 form-group">
 						<label class="control-label" for="team_id">Bộ phận IT</label>  
@@ -55,10 +55,10 @@
 					</div>
 					<div class="col-sm-12 form-group">
 						<label class="control-label" for="demo">Nội dung <span class="important">*</span></label>  
-						<textarea class="form-control " name="content" id="" rows="10" ></textarea>
+						<textarea class="form-control " name="content" id="" rows="10" required></textarea>
 					</div>
 					<div class="col-sm-12 form-group">
-						<input class="form-control-file" accept="image/png, image/jpeg, image/gif" type="file" name="hinh">
+						<input class="form-control-file" accept="image/png, image/jpeg, image/gif" type="file" name="hinh" >
 					</div>
 					<div class="col-sm-12 form-group">
 						<button class="btn btn-primary" type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> Gửi yêu cầu</button>
@@ -75,11 +75,15 @@
 @section("script")
 <script type="text/javascript">
 	
-$("#relater").select2({
-	theme:"bootstrap"
-});
+	$("#relater").select2({
+		theme:"bootstrap"
+	});
 
-
+	$(document).ready(function(){
+		setTimeout(function(){
+			$('.thongbao').hide();
+		}, 1000);
+	});
 </script>
 @endsection
 

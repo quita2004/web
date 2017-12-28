@@ -59,7 +59,7 @@ function checkPositionStatus($ticket){
    } else if($status == 2){
        array_push($result, 3); 
    } else if($status == 3){
-       array_push($result, 4); 
+       array_push($result, 4, 5); 
    } else if($status == 4){
        array_push($result, 2, 5); 
    }

@@ -1,7 +1,3 @@
-@extends("layout.index")
-
-@section("content")
-
 <div class="col-sm-9 ">
 	<div class="content-right edit-request">
 		<div class=" content-right-top">
@@ -480,21 +476,3 @@
 		</div>
 	</div>
 </div>
-@endsection
-@section("script")
-
-
-
-<script type="text/javascript" src="js/script.js"></script>
-
-
-
-<script type="text/javascript" src="js/ajax.js"></script>
-
-<script type="text/javascript">
-	$("#relaters").select2({
-		theme:"bootstrap"
-	});
-</script>
-
-@endsection

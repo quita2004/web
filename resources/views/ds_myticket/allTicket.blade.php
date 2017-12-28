@@ -7,6 +7,9 @@
 			<div class="col-sm-12">
 				<h3 class="title">Danh sách công việc tôi yêu cầu <small>{{$page}}</small></h3>
 				<table id="table-assign" class="table">
+					@if(count($ticket) == 0)
+					{{'Không có công việc nào'}}
+					@else
 					<thead>
 						<tr>
 							<th>STT</th>
@@ -21,7 +24,9 @@
 						<?php $stt =0 ?>
 						@foreach($ticket as $tk)
 						<tr class="@if(!isRead($tk->id)) {{' chua-xem '}} @endif">
-							<td>{{$stt=$stt+1}}</td>
+							<td>
+								{{$stt=$stt+1}}
+							</td>
 							<td>
 								<a href="user/edit/{{$tk->id}}">{{$tk->subject}}</a>
 								
@@ -41,7 +46,7 @@
 								@endif
 							</td>
 							<td>{{$tk->ticketAssignedTo[0]->name}}</td>
-							<td>{{$tk->deadline}}</td>
+							<td>{{substr( $tk->deadline,  0, 10 )}}</td>
 							<td>
 								@if($tk->status == 1)
 								{{'New'}}
@@ -64,8 +69,8 @@
 							</td>
 						</tr>
 						@endforeach
-						
 					</tbody>
+					@endif
 				</table>
 				
 			</div>

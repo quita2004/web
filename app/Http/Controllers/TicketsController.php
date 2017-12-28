@@ -8,6 +8,7 @@ use App\Employees;
 use App\Tickets;
 use App\TicketRelaters;
 use App\TeamId;
+use App\TicketRead;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
@@ -62,8 +63,7 @@ class TicketsController extends Controller
 				'assigned_to'=>$assign,
 				'image'=> $hinh,
 				'team_id'=> $request->team_id,
-				'created_at'=> new DateTime(),
-				'reads'=> 0
+				'created_at'=> new DateTime()
 			]
 		);
 		if(isset($request->relaters)){
@@ -74,6 +74,14 @@ class TicketsController extends Controller
 				$tr->save();
 			}
 		}
+
+		//danh dau da doc
+        if(!isRead($id)){
+            $ticket_read = new TicketRead;
+            $ticket_read->ticket_id = $id;
+            $ticket_read->employee_id = $user;
+            $ticket_read->save();
+        }
 		return redirect('user/create')->with('thongbao', 'Thêm thành công');
 	}
 
@@ -81,27 +89,27 @@ class TicketsController extends Controller
 		$user = Auth::user();
 		$ticket = Tickets::where('create_by', '=', $user->id)->get();
 
-		return view('ds_myticket/allTicket',['ticket'=>$ticket, 'page'=>'Tất cả']);
+		return view('ds_myticket/allTicket',['ticket'=>$ticket, 'page'=>'Tất cả', 'site'=>11]);
 	}
 	public function getNewMyTicket(){
 		$user = Auth::user();
 		$ticket = Tickets::where('create_by', '=', $user->id)->where('status', '=', 1)->get();
-		return view('ds_myticket/allTicket',['ticket'=>$ticket, 'page'=>'New']);
+		return view('ds_myticket/allTicket',['ticket'=>$ticket, 'page'=>'New', 'site'=>12]);
 	}
 	public function getInprogressMyTicket(){
 		$user = Auth::user();
 		$ticket = Tickets::where('create_by', '=', $user->id)->where('status', '=', 2)->get();
-		return view('ds_myticket/allTicket',['ticket'=>$ticket, 'page'=>'Inprogress']);
+		return view('ds_myticket/allTicket',['ticket'=>$ticket, 'page'=>'Inprogress', 'site'=>13]);
 	}
 	public function getResolvedMyTicket(){
 		$user = Auth::user();
 		$ticket = Tickets::where('create_by', '=', $user->id)->where('status', '=', 3)->get();
-		return view('ds_myticket/allTicket',['ticket'=>$ticket, 'page'=>'Resolved']);
+		return view('ds_myticket/allTicket',['ticket'=>$ticket, 'page'=>'Resolved', 'site'=>14]);
 	}
 	public function getOutOfDateMyTicket(){
 		$user = Auth::user();
 		$time = new DateTime();
 		$ticket = Tickets::where('create_by', '=', $user->id)->where('deadline', '<',  $time)->where('status', '!=', 5)->get();
-		return view('ds_myticket/allTicket',['ticket'=>$ticket, 'page'=>'Date Of Time']);
+		return view('ds_myticket/allTicket',['ticket'=>$ticket, 'page'=>'Date Of Time', 'site'=>15]);
 	}
 }
