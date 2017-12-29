@@ -19,79 +19,17 @@ class EditTicketController extends Controller
 {
     //
     public function getEdit($idticket){
+        $user = Auth::user();
         $ticket = Tickets::find($idticket);
         $relaters = TicketRelaters::where('ticket_id',$idticket)->get();
         $comment = TicketComment::where('ticket_id',$idticket)->get();
         $employees = Employees::where('team_id',$ticket->team_id)->get();
 
-        $user = Auth::user();
-
-        //mang luu cac dk duoc thay doi
-        $positionChange = array();
+        $positionChange = positionChange($ticket);
 
         // app/function/function.php/
         // trả về mảng các trang thái được chọn tiếp theo
         $positionStatus = checkPositionStatus($ticket);
-
-        //DK thay doi team it
-        $isEditTeam = 0;
-
-        //DK thay doi muc do uu tien
-        $isEditPriority = 0;
-
-        //DK thay doi deadline
-        $isEditDeadline = 0;
-
-        //DK thay doi nguoi lien quan
-        $isEditRelater = 0;
-
-        //DK thay doi nguoi thuc hien
-        $isEditAssign = 0;
-
-        //Đk thay đổi trạng thái
-        $isEditStatus = 0;
-
-        //dk comment
-        $isComment = 0;
-
-        if(positionCompany($user->id) == 1 || positionTeam($user->id, $ticket->team_id) > 0){
-            if($ticket->status != 3&& $ticket->status != 5 && $ticket->status != 6){
-                $isEditTeam = 1;
-                $isEditPriority = 1;
-                $isEditDeadline = 1;
-                $isEditAssign = 1;
-            }
-            
-        }
-
-        if($user->id == $ticket->create_by || positionCompany($user->id) == 1 || positionTeam($user->id, $ticket->team_id) > 0){
-            if($ticket->status != 3 && $ticket->status != 5 && $ticket->status != 6){
-                $isEditRelater = 1;
-            }
-            
-        }
-
-        if($user->id == $ticket->create_by || $user->id == $ticket->assigned_to 
-            || positionCompany($user->id) == 1 || positionTeam($user->id, $ticket->team_id) > 0){
-            $isComment = 1;
-            if( $ticket->status != 5 && $ticket->status != 6){
-                $isEditStatus = 1;
-            }
-
-        }
-        if(in_array(0, $positionStatus) && count($positionStatus) == 1){
-            $isEditStatus = 0;
-        }
-
-        $positionChange['team'] = $isEditTeam;
-        $positionChange['priority'] = $isEditPriority;
-        $positionChange['deadline'] = $isEditDeadline;
-        $positionChange['relater'] = $isEditRelater;
-        $positionChange['assign'] = $isEditAssign;
-        $positionChange['status'] = $isEditStatus;
-        $positionChange['comment'] = $isComment;
-
-        $positionChange['edit'] = isEdit($idticket);
 
         //danh dau da doc
         if(!isRead($idticket)){
@@ -111,31 +49,17 @@ class EditTicketController extends Controller
             if(isset($request->comment)){
                 $id = DB::table('ticket_comment')->insertGetId(
                     [
-                     'ticket_id' => $idticket,
-                     'employee_id' => $user->id,
-                     'content' => $request->comment,
-                     'type' => 0,
-                     'note' => ''
-                 ]
-             );
+                       'ticket_id' => $idticket,
+                       'employee_id' => $user->id,
+                       'content' => $request->comment,
+                       'type' => 0,
+                       'note' => ''
+                   ]
+               );
 
                 $comment = TicketComment::find($id);
                 
-                echo "<div class='comment-detail'>
-                <div class='user'>
-                <div class='avata'><img src='img/avata.jpg' alt=''></div>
-                <div class='info'>
-                <a href='#'>".$comment->employee[0]->name."</a>
-                <p class='time-post'><i class='fa fa-clock-o' aria-hidden='true'></i>".$comment->created_at."</p>
-                </div>
-                </div>
-
-                <div class='content-post'>
-                <p>".$comment->note."</p>
-                <p>".$comment->content."</p>
-
-                </div>
-                </div>";
+                return view('ajax.comment', ['cm'=>$comment]);
                 
             }
         }
@@ -160,79 +84,14 @@ class EditTicketController extends Controller
 
                 $employees = Employees::where('team_id',$ticket->team_id)->get();
 
-                $positionChange = array();
+                $positionChange = positionChange($ticket);
 
-        // app/function/function.php/
-        // trả về mảng các trang thái được chọn tiếp theo
+                // app/function/function.php/
+                // trả về mảng các trang thái được chọn tiếp theo
                 $positionStatus = checkPositionStatus($ticket);
 
-        //DK thay doi team it
-                $isEditTeam = 0;
-
-        //DK thay doi muc do uu tien
-                $isEditPriority = 0;
-
-        //DK thay doi deadline
-                $isEditDeadline = 0;
-
-        //DK thay doi nguoi lien quan
-                $isEditRelater = 0;
-
-        //DK thay doi nguoi thuc hien
-                $isEditAssign = 0;
-
-        //Đk thay đổi trạng thái
-                $isEditStatus = 0;
-
-        //dk comment
-                $isComment = 0;
-
-                if(positionCompany($user->id) == 1 || positionTeam($user->id, $ticket->team_id) > 0){
-                    if($ticket->status != 3&& $ticket->status != 5 && $ticket->status != 6){
-                        $isEditTeam = 1;
-                        $isEditPriority = 1;
-                        $isEditDeadline = 1;
-                        $isEditAssign = 1;
-                    }
-
-                }
-
-                if($user->id == $ticket->create_by || positionCompany($user->id) == 1 || positionTeam($user->id, $ticket->team_id) > 0){
-                    if($ticket->status != 3 && $ticket->status != 5 && $ticket->status != 6){
-                        $isEditRelater = 1;
-                    }
-
-                }
-
-                if($user->id == $ticket->create_by || $user->id == $ticket->assigned_to 
-                    || positionCompany($user->id) == 1 || positionTeam($user->id, $ticket->team_id) > 0){
-                    $isComment = 1;
-                    if( $ticket->status != 5 && $ticket->status != 6){
-                        $isEditStatus = 1;
-                    }
-
-                }
-                if(in_array(0, $positionStatus) && count($positionStatus) == 1){
-                    $isEditStatus = 0;
-                }
-
-                $positionChange['changeteam'] = $isEditTeam;
-                $positionChange['changepriority'] = $isEditPriority;
-                $positionChange['changedeadline'] = $isEditDeadline;
-                $positionChange['changerelater'] = $isEditRelater;
-                $positionChange['changeassign'] = $isEditAssign;
-                $positionChange['changestatus'] = $isEditStatus;
-                $positionChange['changecomment'] = $isComment;
-
-                // $positionChange['edit'] = isEdit($idticket);
-
-                $list_assign = "<label class='control-label' for='assign'>Thay đổi người thực hiện</label>
-                <select class='form-control' id='assign' name='assign'>";
-                foreach($employees as $e){
-                    $select = $ticket->assigned_to == $e->id ? ' selected ' : '';
-                    $list_assign .=" <option value='".$e->id."'".$select.">". $e->name ."</option>";
-                }
-                $list_assign.= "</select>";
+                $list_assign = '';
+                $list_assign .= view('ajax.list_assign', ['ticket'=>$ticket, 'employees'=>$employees]);
 
                 $thongbao = 'Thay đổi bộ phận IT thành công';
 
@@ -249,11 +108,10 @@ class EditTicketController extends Controller
             $ticket = Tickets::find($idticket);
             $oldpriority = $ticket->priority;
             $priority = $request->priority;
+            //Nếu mức độ ưu tiên đã thay đổi và có comment
             if($oldpriority != $priority && $request->change_priority != ''){
 
                 DB::table('tickets')->where('id', $idticket)->update(['priority' => $request->priority]);
-
-
 
                 if($oldpriority == 1){
                     $oldpriority = 'Thấp';
@@ -274,8 +132,6 @@ class EditTicketController extends Controller
                     $priority = 'Khẩn cấp';
                 } 
 
-
-
                 $id = DB::table('ticket_comment')->insertGetId(
                     [
                         'ticket_id' => $idticket,
@@ -287,22 +143,9 @@ class EditTicketController extends Controller
                 );
 
                 $comment = TicketComment::find($id);
+                $newcomment = '';
 
-                $newcomment =  "<div class='comment-detail'>
-                <div class='user'>
-                <div class='avata'><img src='img/avata.jpg' alt=''></div>
-                <div class='info'>
-                <a href='#'>".$comment->employee[0]->name."</a>
-                <p class='time-post'><i class='fa fa-clock-o' aria-hidden='true'></i>".$comment->created_at."</p>
-                </div>
-                </div>
-
-                <div class='content-post'>
-                <p>".$comment->note."</p>
-                <p>".$comment->content."</p>
-
-                </div>
-                </div>";
+                $newcomment .=  view('ajax.comment', ['cm'=>$comment]);
 
                 $thongbao = 'Thay đổi mức độ ưu tiên thành công';
 
@@ -329,27 +172,15 @@ class EditTicketController extends Controller
             $ticket_comment->note = 'Thay đổi deadline: '.$olddeadline.' => '.$newdeadline;
             $ticket_comment->save();
 
-            $newcomment =  "<div class='comment-detail'>
-            <div class='user'>
-            <div class='avata'><img src='img/avata.jpg' alt=''></div>
-            <div class='info'>
-            <a href='#'>".$user->name."</a>
-            <p class='time-post'><i class='fa fa-clock-o' aria-hidden='true'></i>".$ticket_comment->created_at."</p>
-            </div>
-            </div>
-
-            <div class='content-post'>
-            <p>".$ticket_comment->note."</p>
-            <p>".$ticket_comment->content."</p>
-
-            </div>
-            </div>";
+            $newcomment = '';
+            $newcomment .=  view('ajax.comment', ['cm'=>$ticket_comment]);
 
             $thongbao = 'Thay đổi deadline thành công';
 
             return ['newdeadline'=>$newdeadline, 'newcomment'=>$newcomment, 'thongbao'=>$thongbao];
         }
     }
+
     public function postEditRelaters(Request $request, $idticket){
         if($request -> ajax()){
             DB::table('ticket_relaters')->where('ticket_id',$idticket)->delete();
@@ -379,9 +210,6 @@ class EditTicketController extends Controller
                 }
             }
             
-
-
-
             return ['newrelater'=>$newrelater, 'thongbao'=>$thongbao];
         }
     }
@@ -402,35 +230,19 @@ class EditTicketController extends Controller
         if($request -> ajax()){
             DB::table('tickets')->where('id', $idticket)->update(['status' => $request->status]);
 
+            $user = Auth::user();
             $ticket = Tickets::find($idticket);
+
+            $employees = Employees::where('team_id',$ticket->team_id)->get();
+
+            $positionChange = array();
+
+            
             $positionStatus = checkPositionStatus($ticket);
 
 
-            $block_status = "<label class='control-label status1' for='status'>Trạng thái</label>  
-            <select class='form-control status1' id='status' name='status'>";
-            
-            $select1 = ($ticket->status == 1) ? ' selected ' : '';
-            $hidden1 = (in_array(1, $positionStatus)) ? "<option value='1' ".$select1.">New</option>" : '';
-
-            $select2 = ($ticket->status == 2) ? ' selected ' : '';
-            $hidden2 = (in_array(2, $positionStatus)) ? "<option value='2' ".$select2.">Inprogress</option>" : '';
-
-            $select3 = ($ticket->status == 3) ? ' selected ' : '';
-            $hidden3 = (in_array(3, $positionStatus)) ? "<option value='3' ".$select3.">Resolved</option>" : '';
-
-            $select4 = ($ticket->status == 4) ? ' selected ' : '';
-            $hidden4 = (in_array(4, $positionStatus)) ? "<option value='4' ".$select4.">Feedback</option>" : '';
-
-            $select5 = ($ticket->status == 5) ? ' selected ' : '';
-            $hidden5 = (in_array(5, $positionStatus)) ? "<option value='5' ".$select5.">Close</option>" : '';
-
-            $select6 = ($ticket->status == 6) ? ' selected ' : '';
-            $hidden6 = (in_array(6, $positionStatus)) ? "<option value='6' ".$select6.">Cancelled</option>" : '';
-
-
-            $block_status .=$hidden2.$hidden3.$hidden4.$hidden5.$hidden6;
-            
-            $block_status .= "</select>";
+            $block_status = '';
+            $block_status .= view('ajax.block_status', ['ticket'=>$ticket, 'positionStatus'=>$positionStatus]);
 
             if ($ticket->status == 1){
                 $status = 'New';
@@ -446,13 +258,11 @@ class EditTicketController extends Controller
                 $status = 'Cancelled';
             } 
             
-
-            
-
+            $positionChange = positionChange($ticket);
 
             $thongbao = "Thay đổi trạng thái thành công";
 
-            return ['block-status'=>$block_status, 'status'=>$status, 'thongbao'=>$thongbao];
+            return ['block-status'=>$block_status, 'status'=>$status,'positionChange'=>$positionChange, 'thongbao'=>$thongbao];
         }
     }
 

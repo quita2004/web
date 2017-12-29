@@ -1,6 +1,7 @@
 <?php
 //composer dumpautoload
 
+//Các hàm dùng trong project
 
 use App\TeamId;
 use App\Position;
@@ -48,26 +49,26 @@ function checkPositionStatus($ticket){
        } else if($status == 4){
            array_push($result, 2); 
        }
-   }
+    }
 
-   //nguoi quyen cong ty
-   if(is_leader(Auth::user()->id) == 2){
-    array_push($result, 6);
+    //nguoi quyen cong ty
+    if(is_leader(Auth::user()->id) == 2){
+        array_push($result, 6);
 
-    if($status == 1){
-       array_push($result, 2); 
-   } else if($status == 2){
-       array_push($result, 3); 
-   } else if($status == 3){
-       array_push($result, 4, 5); 
-   } else if($status == 4){
-       array_push($result, 2, 5); 
-   }
-}
+        if($status == 1){
+           array_push($result, 2); 
+       } else if($status == 2){
+           array_push($result, 3); 
+       } else if($status == 3){
+           array_push($result, 4, 5); 
+       } else if($status == 4){
+           array_push($result, 2, 5); 
+       }
+    }
 
-return $result;
+    return $result;
 
-}
+    }
 
 function is_leader($id){
     $team = TeamId::where('id_leader',$id)->get();
@@ -229,7 +230,7 @@ function readRelaterTicket($type){
     $ticket = array();
 
     if($type == 0){
-        //new
+        //all
         foreach ($reticket as $rt) {
             array_push($ticket,$rt->ticketTo);
         }
@@ -352,6 +353,73 @@ function readItTicket($type){
     return $result;
 }
 
+function positionChange($ticket){
+    $user = Auth::user();
+
+    $positionStatus = checkPositionStatus($ticket);
+        //mang luu cac dk duoc thay doi
+    $positionChange = array();
+
+        //DK thay doi team it
+    $isEditTeam = 0;
+
+        //DK thay doi muc do uu tien
+    $isEditPriority = 0;
+
+        //DK thay doi deadline
+    $isEditDeadline = 0;
+
+        //DK thay doi nguoi lien quan
+    $isEditRelater = 0;
+
+        //DK thay doi nguoi thuc hien
+    $isEditAssign = 0;
+
+        //Đk thay đổi trạng thái
+    $isEditStatus = 0;
+
+        //dk comment
+    $isComment = 0;
+
+    if(positionCompany($user->id) == 1 || positionTeam($user->id, $ticket->team_id) > 0){
+        if($ticket->status != 3&& $ticket->status != 5 && $ticket->status != 6){
+            $isEditTeam = 1;
+            $isEditPriority = 1;
+            $isEditDeadline = 1;
+            $isEditAssign = 1;
+        }
+
+    }
+
+    if($user->id == $ticket->create_by || positionCompany($user->id) == 1 || positionTeam($user->id, $ticket->team_id) > 0){
+        if($ticket->status != 3 && $ticket->status != 5 && $ticket->status != 6){
+            $isEditRelater = 1;
+        }
+
+    }
+
+    if($user->id == $ticket->create_by || $user->id == $ticket->assigned_to 
+        || positionCompany($user->id) == 1 || positionTeam($user->id, $ticket->team_id) > 0){
+        $isComment = 1;
+        if( $ticket->status != 5 && $ticket->status != 6){
+            $isEditStatus = 1;
+        }
+
+    }
+    if(in_array(0, $positionStatus) && count($positionStatus) == 1){
+        $isEditStatus = 0;
+    }
+
+    $positionChange['changeteam'] = $isEditTeam;
+    $positionChange['changepriority'] = $isEditPriority;
+    $positionChange['changedeadline'] = $isEditDeadline;
+    $positionChange['changerelater'] = $isEditRelater;
+    $positionChange['changeassign'] = $isEditAssign;
+    $positionChange['changestatus'] = $isEditStatus;
+    $positionChange['changecomment'] = $isComment;
+
+    return $positionChange;
+}
 
 
 ?>

@@ -263,6 +263,10 @@ span.important{
 	float: left;
 }
 
+.an{
+	display: none;
+}
+
 /* error */
 .content-right.error{
 	background: #fff;

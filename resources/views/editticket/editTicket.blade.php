@@ -17,11 +17,11 @@
 						{{$ticket->subject}}
 					</div>
 
-					@if($positionChange['edit'] == 1)
+					
 					<div class="col-sm-8 content-right-btn">
 
-						@if($positionChange['team'] == 1)
-						<div class="changeteam block-change">
+						
+						<div class="changeteam block-change @if($positionChange['changeteam'] == 0) {{' an '}} @endif">
 							<button class="btn btn-default" data-toggle="modal" data-target="#modal-it"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Thay đổi bộ phận IT</button>
 
 							<!-- Modal -->
@@ -57,10 +57,10 @@
 								</div>
 							</div>
 						</div>
-						@endif
+						
 
-						@if($positionChange['priority'] == 1)
-						<div class="changepriority block-change">
+						
+						<div class="changepriority block-change @if($positionChange['changepriority'] == 0) {{' an '}} @endif">
 							<button class="btn btn-default" data-toggle="modal" data-target="#modal-ut"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Thay đổi mức độ ưu tiên</button>
 							<!-- Modal -->
 							<div class="modal fade" id="modal-ut" role="dialog">
@@ -101,10 +101,10 @@
 								</div>
 							</div>
 						</div>
-						@endif
+						
 
-						@if($positionChange['deadline'] == 1)
-						<div class="changedeadline block-change">
+						
+						<div class="changedeadline block-change @if($positionChange['changedeadline'] == 0) {{' an '}} @endif">
 							<button class="btn btn-default" data-toggle="modal" data-target="#modal-dl"><i class="fa fa-calendar-o" aria-hidden="true"></i> Thay đổi deadline</button>
 							<!-- Modal -->
 							<div class="modal fade" id="modal-dl" role="dialog">
@@ -140,10 +140,10 @@
 								</div>
 							</div>
 						</div>
-						@endif
+						
 
-						@if($positionChange['relater'] == 1)
-						<div class="changerelater block-change">
+						
+						<div class="changerelater block-change @if($positionChange['changerelater'] == 0) {{'an'}} @endif">
 							<button class="btn btn-default" data-toggle="modal" data-target="#modal-lq"><i class="fa fa-user" aria-hidden="true"></i> Thay đổi người liên quan</button>
 							<!-- Modal -->
 							<div class="modal fade" id="modal-lq" role="dialog">
@@ -186,10 +186,10 @@
 								</div>
 							</div>
 						</div>
-						@endif
+						
 
-						@if($positionChange['assign'] == 1)
-						<div class="changeassign block-change">
+						
+						<div class="changeassign block-change @if($positionChange['changeassign'] == 0) {{' an '}} @endif">
 							<button class="btn btn-default" data-toggle="modal" data-target="#modal-as"><i class="fa fa-hand-o-right" aria-hidden="true"></i> Asign</button>
 							<!-- Modal -->
 							<div class="modal fade" id="modal-as" role="dialog">
@@ -231,10 +231,10 @@
 								</div>
 							</div>
 						</div>
-						@endif
+						
 
-						@if($positionChange['status'] == 1)
-						<div class="changestatus block-change">
+						
+						<div class="changestatus block-change @if($positionChange['changestatus'] == 0) {{' an '}} @endif">
 							<button class="btn btn-default" data-toggle="modal" data-target="#modal-tt"><i class="fa fa-exchange" aria-hidden="true"></i> Thay đổi trạng thái</button>
 							<!-- Modal -->
 							<div class="modal fade" id="modal-tt" role="dialog">
@@ -324,9 +324,9 @@
 								</div>
 							</div>
 						</div>
-						@endif
+						
 					</div>
-					@endif
+					
 				</div>
 			</div>
 			<hr>
@@ -462,7 +462,7 @@
 				@endforeach
 			</div>
 
-			@if($positionChange['comment'] == 1)
+			@if($positionChange['changecomment'] == 1)
 			<div class="changecomment">
 				<h4 class="title-comment">Bình luận <span class="important">*</span> </h4>
 

@@ -21,13 +21,15 @@
 </head>
 <body>
 	@include("layout.header")
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="menu">
 				@include("layout.menu")
 			</div>
+			<div class="content">
+				@yield("content")
+			</div>
 			
-			@yield("content")
 
 		</div>
 	</div>

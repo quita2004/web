@@ -21,13 +21,17 @@ $(document).ready(function(){
 				$('.data-assign').html(data['assign']);
 				$('.data-teamid').html(data['teamid']);
 				$('.change-assign').html(data['list_assign']);
+				
+
 				var positionChange = data['positionChange'];
 				
 				$.each(positionChange, function(key, value) {
 
 					if(value == 0){
-						alert(value);
+						
 						$('.'+key).hide();
+					} else if(value == 1){
+						$('.'+key).show();
 					}
 				});
 
@@ -209,10 +213,10 @@ $(document).ready(function(){
 				var positionChange = data['positionChange'];
 				
 				$.each(positionChange, function(key, value) {
-
 					if(value == 0){
-						alert(value);
 						$('.'+key).hide();
+					} else if(value == 1){
+						$('.'+key).show();
 					}
 				});
 
