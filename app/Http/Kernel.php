@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
         'login' => \App\Http\Middleware\LoginMiddleware::class,
         'edit' => \App\Http\Middleware\EditMiddleware::class,
         'viewteam' => \App\Http\Middleware\TeamMiddleware::class,
-        'viewit' => \App\Http\Middleware\ITMiddleware::class
+        'viewit' => \App\Http\Middleware\ITMiddleware::class,
+        'notexist' => \App\Http\Middleware\ExistTicketMiddleware::class
     ];
 }

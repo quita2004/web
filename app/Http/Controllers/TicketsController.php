@@ -12,6 +12,7 @@ use App\TicketRead;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
+use Mail;
 
 class TicketsController extends Controller
 {
@@ -76,12 +77,25 @@ class TicketsController extends Controller
 		}
 
 		//danh dau da doc
-        if(!isRead($id)){
-            $ticket_read = new TicketRead;
-            $ticket_read->ticket_id = $id;
-            $ticket_read->employee_id = $user;
-            $ticket_read->save();
-        }
+		if(!isRead($id)){
+			$ticket_read = new TicketRead;
+			$ticket_read->ticket_id = $id;
+			$ticket_read->employee_id = $user;
+			$ticket_read->save();
+		}
+
+		//gửi mail thong báo cho leader
+		$ticket = Tickets::find($id);
+		$user = Auth::user();
+		
+		$idleader = TeamId::find($request->team_id)->id_leader;
+		$leader = Employees::find($idleader)->email;
+
+		Mail::send('mails.noti', ['ticket'=>$ticket, 'relaters'=>$request->relaters], function($message) use ($leader){
+			$message->from('quitn97@gmail.com', '');
+			$message->to($leader)->subject('Thông báo công việc mới');
+		});
+
 		return redirect('user/create')->with('thongbao', 'Thêm thành công');
 	}
 

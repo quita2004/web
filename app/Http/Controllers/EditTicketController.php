@@ -13,6 +13,7 @@ use App\TeamId;
 use App\TicketComment;
 use App\Position;
 use App\TicketRead;
+use Mail;
 
 
 class EditTicketController extends Controller
@@ -49,13 +50,13 @@ class EditTicketController extends Controller
             if(isset($request->comment)){
                 $id = DB::table('ticket_comment')->insertGetId(
                     [
-                       'ticket_id' => $idticket,
-                       'employee_id' => $user->id,
-                       'content' => $request->comment,
-                       'type' => 0,
-                       'note' => ''
-                   ]
-               );
+                     'ticket_id' => $idticket,
+                     'employee_id' => $user->id,
+                     'content' => $request->comment,
+                     'type' => 0,
+                     'note' => ''
+                 ]
+             );
 
                 $comment = TicketComment::find($id);
                 
@@ -94,6 +95,17 @@ class EditTicketController extends Controller
                 $list_assign .= view('ajax.list_assign', ['ticket'=>$ticket, 'employees'=>$employees]);
 
                 $thongbao = 'Thay đổi bộ phận IT thành công';
+
+                //gửi mail thong báo cho leader
+                $ticket = Tickets::find($idticket);
+
+                $idleader = TeamId::find($request->team_id)->id_leader;
+                $leader = Employees::find($idleader)->email;
+
+                Mail::send('mails.noti', ['ticket'=>$ticket, 'relaters'=>$request->relaters], function($message) use ($leader){
+                    $message->from('quitn97@gmail.com', '');
+                    $message->to($leader)->subject('Thông báo công việc mới');
+                });
 
                 return ['teamid'=>$team[0]->name, 'assign'=> $assign->name, 'list_assign'=>$list_assign, 'thongbao'=>$thongbao, 'positionChange'=>$positionChange];
 
@@ -240,10 +252,6 @@ class EditTicketController extends Controller
             
             $positionStatus = checkPositionStatus($ticket);
 
-
-            $block_status = '';
-            $block_status .= view('ajax.block_status', ['ticket'=>$ticket, 'positionStatus'=>$positionStatus]);
-
             if ($ticket->status == 1){
                 $status = 'New';
             } else if ($ticket->status == 2){
@@ -262,7 +270,39 @@ class EditTicketController extends Controller
 
             $thongbao = "Thay đổi trạng thái thành công";
 
-            return ['block-status'=>$block_status, 'status'=>$status,'positionChange'=>$positionChange, 'thongbao'=>$thongbao];
+            $newcomment ='';
+            //close công việc
+            if($request->status == 5){
+                DB::table('tickets')->where('id', $idticket)->update(['rating' => $request->rate]);
+
+                $content = '';
+                $note = 'Đánh giá công việc: ';
+                if($request->rate == 0){
+                    $note .= 'Không hài lòng';
+                } else{
+                    $note .= 'Hài lòng';
+                }
+                if(isset($request->unsatisfied)){
+                    $content .= 'Lý do: '.$request->unsatisfied;
+                }
+
+                $id = DB::table('ticket_comment')->insertGetId(
+                    [
+                        'ticket_id' => $idticket,
+                        'employee_id' => $user->id,
+                        'content' => $content,
+                        'type' => 1,
+                        'note' => $note
+                    ]
+                );
+
+                $comment = TicketComment::find($id);
+                $newcomment = '';
+
+                $newcomment .=  view('ajax.comment', ['cm'=>$comment]);
+            }
+
+            return [ 'status'=>$status,'positionChange'=>$positionChange ,'positionStatus'=>$positionStatus, 'newcomment'=>$newcomment, 'thongbao'=>$thongbao];
         }
     }
 

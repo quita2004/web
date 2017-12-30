@@ -34,8 +34,6 @@ $(document).ready(function(){
 		oldstatus = $('#status').val();
 	});
 
-
-
 	$('#team_id').change(function(){
 		if($('#team_id').val() != oldteamid)
 			$('.btn-teamid').prop('disabled', false);
@@ -99,11 +97,43 @@ $(document).ready(function(){
 
 	$('.status1').change(function(){
 		
-		if($('.status1').val() != oldstatus){
+		if($('.status1').val() != oldstatus && $('.status1').val() != 5){
 			$('.btn-status').prop('disabled', false);
-		}
-		else{
+			$('.block-rate').hide();
+		} else if($('.status1').val() == 5){
 			$('.btn-status').prop('disabled', true);
+			$('.block-rate').show();
+			var checkbox = $('.close-rate');
+			$('input[name=close-rate]').change(function(){
+				
+				if (checkbox[1].checked === true){
+					$('.block-rate .comment-rate').show();
+					if($('#unsatisfied').val() == ''){
+						$('.btn-status').prop('disabled', true);
+						// alert('a');
+					}
+					$('#unsatisfied').keyup(function(){
+						if($('#unsatisfied').val() != ''){
+							$('.btn-status').prop('disabled', false);
+						} else{
+							$('.btn-status').prop('disabled', true);
+						}
+						
+					});
+				} else{
+					$('.block-rate .comment-rate').hide();
+				}
+				if(checkbox[0].checked === true){
+					$('.btn-status').prop('disabled', false);
+				}
+			});
+
+			if (checkbox[0].checked === true){
+				$('.btn-status').prop('disabled', false);
+			}
+		} else{
+			$('.btn-status').prop('disabled', true);
+			$('.block-rate').hide();
 		}
 	});
 
@@ -114,6 +144,8 @@ $(document).ready(function(){
 			$('.btn-comment').prop('disabled', true);
 		}
 	});
+
+	//thay đổi trạng thái sang close
 
 
 

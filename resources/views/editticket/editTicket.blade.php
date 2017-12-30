@@ -16,7 +16,7 @@
 						<br>
 						{{$ticket->subject}}
 					</div>
-
+{{existTicket(100)}}
 					
 					<div class="col-sm-8 content-right-btn">
 
@@ -253,13 +253,13 @@
 
 													<label class="control-label" for="status">Trạng thái</label>  
 													<select class="form-control status1" id="status" name="status">
-														<option value="1" 
+														<option value="1"  
 														@if($ticket->status == 1)
 														{{' selected '}}
 														@endif
 
 														@if(!in_array(1, $positionStatus))
-														{{' hidden '}}
+														{{' hidden = '}}
 														@endif
 														>New</option>
 
@@ -310,9 +310,27 @@
 														>Cancelled</option>
 													</select>
 												</div>
-												<br>
-
-
+												
+												<div class="block-rate">
+													<label class="control-label" for="status">Đánh giá <span class="important">*</span></label>
+													<div>
+														<form>
+															<label class="radio-inline">
+																<input type="radio" name="close-rate" class="close-rate" value="1">Hài lòng
+															</label>
+															<label class="radio-inline">
+																<input type="radio" name="close-rate" class="close-rate" value="0">Không hài lòng
+															</label>
+															<br>
+															<br>
+															<div class="comment-rate">
+																<label class="control-label" for="status">Lý do <span class="important">*</span></label>
+																<input  name="unsatisfied" id="unsatisfied"  type="text" placeholder="Lý do không hài lòng" class="form-control" >
+															</div>
+															
+														</form>
+													</div>
+												</div>
 											</div>
 											<div class="modal-footer">
 												<button type="submit" class="btn btn-primary btn-status" data-dismiss="modal">Thay đổi</button>
@@ -320,6 +338,7 @@
 											</div>
 										</form>
 									</div>
+
 
 								</div>
 							</div>

@@ -23,6 +23,9 @@ Route::get('/logout', 'UserController@getLogout');
 Route::get('/error', function(){
 	return view('error');
 });
+Route::get('/notexist', function(){
+	return view('notexist');
+});
 
 Route::group(['prefix'=>'user', 'middleware'=>'login'], function(){
 	Route::get('create', 'TicketsController@getTickets');
@@ -70,7 +73,7 @@ Route::group(['prefix'=>'user', 'middleware'=>'login'], function(){
 		Route::get('close', 'ItTicketController@getCloseTicket');
 	});
 
-	Route::group(['prefix' => 'edit', 'middleware'=>'edit'], function() {
+	Route::group(['prefix' => 'edit', 'middleware'=>['notexist','edit']], function() {
 		Route::group(['prefix' => '{idticket}'], function() {
 			Route::get('/', 'EditTicketController@getEdit');
 			Route::post('/comment', 'EditTicketController@postComment');

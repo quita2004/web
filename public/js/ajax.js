@@ -193,6 +193,14 @@ $(document).ready(function(){
 
 	$('.btn-status').click(function(e){
 		e.preventDefault();
+
+		var checkbox = $('.close-rate');
+		for (var i = 0; i < checkbox.length; i++){
+			if (checkbox[i].checked === true){
+				var rate = checkbox[i].value;
+			}
+		}
+		var unsatisfied = $('#unsatisfied').val();
 		
 		$.ajaxSetup({
 			headers: {
@@ -203,12 +211,15 @@ $(document).ready(function(){
 			'url' : 'user/edit/'+idticket+'/status',
 			'data' : 
 			{
-				'status' : $('#status').val()
+				'status' : $('#status').val(),
+				'rate' : rate,
+				'unsatisfied' : unsatisfied
 			},
 			'type' : 'POST',
 			success: function(data){
-				$('.block-status').html(data['block-status']);
+				// $('.block-status').html(data['block-status']);
 				$('.data-status').html(data['status']);
+				$('.comment-list').append(data['newcomment']);
 				
 				var positionChange = data['positionChange'];
 				
@@ -219,6 +230,18 @@ $(document).ready(function(){
 						$('.'+key).show();
 					}
 				});
+
+				var positionStatus = data['positionStatus'];
+				console.log(positionStatus);
+				for (var i =1; i < 7; i++){
+					if(positionStatus.indexOf(i) < 0){
+						console.log('them '+i);
+						$('#status option[value='+i+']').attr('hidden', true);
+					} else{
+						console.log('xoa '+i);
+						$('#status option[value='+i+']').attr('hidden', false);
+					}
+				}
 
 				$('.thongbao').show();
 				$('.thongbao').html(data['thongbao']);

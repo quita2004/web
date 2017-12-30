@@ -41,34 +41,34 @@ function checkPositionStatus($ticket){
     //leader team
     if(is_leader(Auth::user()->id) > 0){
         if($status == 1){
-           array_push($result, 2); 
-       } else if($status == 2){
-           array_push($result, 3); 
-       } else if($status == 3){
-           array_push($result, 4); 
-       } else if($status == 4){
-           array_push($result, 2); 
-       }
-    }
+         array_push($result, 2); 
+     } else if($status == 2){
+         array_push($result, 3); 
+     } else if($status == 3){
+         array_push($result, 4); 
+     } else if($status == 4){
+         array_push($result, 2); 
+     }
+ }
 
     //nguoi quyen cong ty
-    if(is_leader(Auth::user()->id) == 2){
-        array_push($result, 6);
+ if(is_leader(Auth::user()->id) == 2){
+    array_push($result, 6);
 
-        if($status == 1){
-           array_push($result, 2); 
-       } else if($status == 2){
-           array_push($result, 3); 
-       } else if($status == 3){
-           array_push($result, 4, 5); 
-       } else if($status == 4){
-           array_push($result, 2, 5); 
-       }
-    }
+    if($status == 1){
+     array_push($result, 2); 
+ } else if($status == 2){
+     array_push($result, 3); 
+ } else if($status == 3){
+     array_push($result, 4, 5); 
+ } else if($status == 4){
+     array_push($result, 2, 5); 
+ }
+}
 
-    return $result;
+return $result;
 
-    }
+}
 
 function is_leader($id){
     $team = TeamId::where('id_leader',$id)->get();
@@ -116,17 +116,18 @@ function isViewEdit($idticket){
     $ticket = Tickets::find($idticket);
 
     $user = Auth::user();
+    if(isset($ticket)){
+        if($user->id == $ticket->create_by || $user->id == $ticket->assigned_to
+            || is_leader($user->id) > 0 || is_subleader($user->id) == $ticket->team_id){
+            $result = true;
+        }
 
-    if($user->id == $ticket->create_by || $user->id == $ticket->assigned_to
-        || is_leader($user->id) > 0 || is_subleader($user->id) == $ticket->team_id){
-        $result = true;
-    }
 
-
-    $ticket = TicketRelaters::where('ticket_id',$idticket)->get();
-    foreach ($ticket as $tk ) {
-        if($tk->employee_id == $user->id){
-            return true;
+        $ticket = TicketRelaters::where('ticket_id',$idticket)->get();
+        foreach ($ticket as $tk ) {
+            if($tk->employee_id == $user->id){
+                return true;
+            }
         }
     }
     return $result;
@@ -419,6 +420,11 @@ function positionChange($ticket){
     $positionChange['changecomment'] = $isComment;
 
     return $positionChange;
+}
+
+function existTicket($idticket){
+    $ticket = Tickets::find($idticket);
+    return isset($ticket) ? 1 : 2;
 }
 
 

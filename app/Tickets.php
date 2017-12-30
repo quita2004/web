@@ -15,4 +15,5 @@ class Tickets extends Model
 	public function ticketAssignedTo(){
 		return $this->hasMany('App\Employees', 'id', 'assigned_to');
 	}
+	
 }
