@@ -17,7 +17,7 @@ class TicketAssignController extends Controller
     //
    public function getAllTicket(){
         $user = Auth::user();
-        $ticket = Tickets::where('assigned_to', '=', $user->id)->get();
+        $ticket = Tickets::where('assigned_to', '=', $user->id)->orderBy('created_at', 'DESC')->get();
         return view('ds_assignticket/allTicket',['ticket'=>$ticket, 'page'=>'Tất cả', 'site'=>31]);
     }
     public function getNewTicket(){

@@ -29,7 +29,7 @@ class UserController extends Controller
 
 		]);
 		if(Auth::attempt(['username'=>$request->username,'password'=>$request->password])){
-			return redirect('user/create');
+			return redirect('user/myticket/all');
 		} else{
 			return redirect('login')->with('thongbao', 'Tên đăng nhập hoặc mật khẩu không đúng');
 		}

@@ -53,19 +53,6 @@
 	<div class="col-sm-3 pad-10">
 		<span class="data-assign">{{$ticket->ticketAssignedTo[0]->name}}</span>
 	</div>
-	<div class="col-sm-3 pad-10">
-		<span class="title">Bộ phận IT:</span>
-	</div>
-	<div class="col-sm-3 pad-10">
-		<span class='data-teamid'>
-			@if($ticket->team_id == 1)
-			{{'Hanoi - IT'}}
-			@endif
-			@if($ticket->team_id == 2)
-			{{'Danang - IT'}}
-			@endif
-		</span>
-	</div>
 	
 	<div class="col-sm-3 pad-10">
 		<span class="title">Trạng thái:</span>
@@ -92,19 +79,7 @@
 			@endif
 		</span>
 	</div>
-	<div class="col-sm-3 pad-10">
-		<span class="title">Người liên quan:</span>
-	</div>
-	<div class="col-sm-3 pad-10">
-		<span class="data-relater">
-			@if(isset($relaters))
-			@foreach($relaters as $rl)
-			{{$rl->employee->name}}{{','}}
-
-			@endforeach
-			@endif
-		</span>
-	</div>
+	
 </div>
 
 <a href="http://localhost/web/public/user/edit/{{$ticket->id}}">Xem chi tiết</a>

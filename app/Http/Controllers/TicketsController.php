@@ -96,12 +96,12 @@ class TicketsController extends Controller
 			$message->to($leader)->subject('Thông báo công việc mới');
 		});
 
-		return redirect('user/create')->with('thongbao', 'Thêm thành công');
+		return redirect('user/myticket/all')->with('thongbao', 'Thêm thành công');
 	}
 
 	public function getAllMyTicket(){
 		$user = Auth::user();
-		$ticket = Tickets::where('create_by', '=', $user->id)->get();
+		$ticket = Tickets::where('create_by', '=', $user->id)->orderBy('created_at', 'DESC')->get();
 
 		return view('ds_myticket/allTicket',['ticket'=>$ticket, 'page'=>'Tất cả', 'site'=>11]);
 	}

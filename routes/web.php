@@ -26,6 +26,9 @@ Route::get('/error', function(){
 Route::get('/notexist', function(){
 	return view('notexist');
 });
+Route::get('/sitemap', function(){
+	return view('sitemap');
+});
 
 Route::group(['prefix'=>'user', 'middleware'=>'login'], function(){
 	Route::get('create', 'TicketsController@getTickets');

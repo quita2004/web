@@ -17,6 +17,7 @@ $(document).ready(function(){
 
 	$('.btn-teamid').click(function(){
 		oldteamid = $('#team_id').val();
+		var oldassign = $('.assign1').val();
 	});
 	$('.btn-priority').click(function(){
 		oldpriority = $('#priority').val();
@@ -101,6 +102,7 @@ $(document).ready(function(){
 			$('.btn-status').prop('disabled', false);
 			$('.block-rate').hide();
 		} else if($('.status1').val() == 5){
+			//thay đổi trạng thái sang close
 			$('.btn-status').prop('disabled', true);
 			$('.block-rate').show();
 			var checkbox = $('.close-rate');
@@ -145,8 +147,9 @@ $(document).ready(function(){
 		}
 	});
 
-	//thay đổi trạng thái sang close
-
-
+	
+	//lazyload trang create
+	$('.lazyload').hide();
+	// $('.btn-create')
 
 });

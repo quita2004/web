@@ -43,6 +43,7 @@
 	<script type="text/javascript" src="vendor/tablefilter/tablefilter.js"></script>
 	<script type="text/javascript" src="vendor/ckeditor/ckeditor.js" ></script>
 	<script type="text/javascript" src="vendor/select2/select2.min.js"></script>
+	<script type="text/javascript" src="vendor/notify/notify.min.js"></script>
 	
 
 	

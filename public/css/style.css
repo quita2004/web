@@ -92,6 +92,20 @@ h4{
 	top: 15px;
 }
 
+/* content-right  */
+.content-right .lazyload{
+	position: absolute;
+	width: 20px;
+	display: none;
+}
+.content-right .lazyload.edit{
+	position: absolute;
+	width: 50px;
+	right: 0px;
+	top: 20px;
+	display: none;
+}
+
 /* menu */
 .panel-group .panel-collapse ul.list-group li{
 	border-bottom: 1px solid #eee;
@@ -296,4 +310,19 @@ span.important{
 .content-right.error h1{
 	padding: 50px 0;
 	margin: 0;
+}
+
+
+/* sitemap */
+
+.content-right.sitemap{
+	background: #fff;
+	padding: 0 30px;
+	overflow: hidden;
+	border-top: 3px solid #0083c1;
+	border-radius: 3px;
+	padding-bottom: 20px;
+}
+.content-right.sitemap a{
+	color: #337ab7;
 }

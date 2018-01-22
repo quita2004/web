@@ -6,7 +6,7 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
+     *php artisan db:seed 
      * @return void
      */
     public function run()
@@ -28,23 +28,26 @@ class EmployeesTableSeeder extends Seeder
         DB::table('employees')->insert(
         	[
         		[
-		            'name' => 'Ngọc',
-		            'username' => 'ngoc',
-		            'password' => bcrypt('ngoc'),
+		            'name' => 'Tùng',
+		            'username' => 'tung',
+		            'password' => bcrypt('tung'),
+                    'email' => 'mail06@gmail.com',
 		            'image' => null,
 			            'team_id' => 1
 		        ],
 		        [
-		            'name' => 'Thiện',
-		            'username' => 'thien',
-		            'password' => bcrypt('thien'),
+		            'name' => 'Dũng',
+		            'username' => 'dung',
+		            'password' => bcrypt('dung'),
+                    'email' => 'mail07@gmail.com',
 		            'image' => null,
 		            'team_id' => 2
 		        ],
 		        [
-		            'name' => 'Sơn',
-		            'username' => 'son',
-		            'password' => bcrypt('son'),
+		            'name' => 'Thắng',
+		            'username' => 'thang',
+		            'password' => bcrypt('thang'),
+                    'email' => 'mail08@gmail.com',
 		            'image' => null,
 		            'team_id' => 1
 		        ]

@@ -23,7 +23,7 @@
 					<tbody>
 						<?php $stt =0 ?>
 						@foreach($ticket as $tk)
-						<tr class="@if(!isRead($tk->id)) {{' chua-xem '}} @endif">
+						<tr >
 							<td>
 								{{$stt=$stt+1}}
 							</td>

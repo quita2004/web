@@ -3,7 +3,8 @@
 @section("content")
 <div class="col-sm-9 ">
 	<div class="content-right creat-request">
-		<h3>Thêm yêu cầu</h3>
+		<h3>Thêm yêu cầu </h3>
+
 		<hr>
 		<div class="row">
 			@if(count($errors) > 0)
@@ -14,7 +15,7 @@
 			</div>
 			@endif
 			@if(session('thongbao'))
-			<div class="alert alert-success thongbao">
+			<div class="alert alert-success thongbao hidden">
 				{{session('thongbao')}}
 			</div>
 			@endif
@@ -36,7 +37,7 @@
 					</div>
 					<div class="col-sm-6 form-group">
 						<label class="control-label" for="date">Ngày hết hạn <span class="important">*</span></label>
-						<input class="form-control" type="date" id="date" name="date" value="{{old('date')}}" required>
+						<input class="form-control" type="date" id="date" name="date" value="{{old('date')}}"  min="2018-01-01">
 					</div>
 					<div class="col-sm-6 form-group">
 						<label class="control-label" for="team_id">Bộ phận IT</label>  
@@ -49,7 +50,9 @@
 						<label class="control-label" for="relater">Người liên quan</label>  
 						<select id="relater" data-placeholder="Người liên quan" class="form-control" multiple="multiple" name="relaters[]" >
 							@foreach($employees as $e)
+							@if(Auth::user()->id != $e->id)
 							<option {{ (collect(old('relaters'))->contains($e->id)) ? 'selected':'' }} value="{{ $e->id }}">{{ $e->name }}</option>
+							@endif
 							@endforeach
 						</select>
 					</div>
@@ -61,7 +64,7 @@
 						<input class="form-control-file" accept="image/png, image/jpeg, image/gif" type="file" name="hinh" >
 					</div>
 					<div class="col-sm-12 form-group">
-						<button class="btn btn-primary" type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> Gửi yêu cầu</button>
+						<button class="btn btn-primary btn-create" type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> Gửi yêu cầu</button>
 						<button class="btn btn-default"><i class="fa fa-ban" aria-hidden="true"></i> Huỷ bỏ</button>
 					</div>
 				</div>
@@ -80,9 +83,15 @@
 	});
 
 	$(document).ready(function(){
-		setTimeout(function(){
-			$('.thongbao').hide();
-		}, 1000);
+		// setTimeout(function(){
+		// 	$('.thongbao').hide();
+		// }, 1000);\
+		$('.thongbao').hide();
+		var tb = $('.thongbao').html();
+		if(tb){
+			$.notify('Thêm thành công', "success");
+		}
+		
 	});
 </script>
 @endsection

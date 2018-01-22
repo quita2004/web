@@ -4,7 +4,7 @@ $(document).ready(function(){
 
 	$('.btn-teamid').click(function(e){
 		e.preventDefault();
-
+		$('.lazyload').show();
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -18,9 +18,10 @@ $(document).ready(function(){
 			},
 			'type' : 'POST',
 			success: function(data){
+				$('.lazyload').hide();
 				$('.data-assign').html(data['assign']);
 				$('.data-teamid').html(data['teamid']);
-				$('.change-assign').html(data['list_assign']);
+				$('select.assign1').html(data['list_assign']);
 				
 
 				var positionChange = data['positionChange'];
@@ -37,12 +38,7 @@ $(document).ready(function(){
 
 				$('.btn-teamid').prop('disabled', true);
 
-				$('.thongbao').show();
-				$('.thongbao').html(data['thongbao']);
-				$('.thongbao').addClass('alert alert-success');
-				setTimeout(function(){
-					$('.thongbao').hide();
-				}, 1000);
+				$.notify(data['thongbao'], "success");
 			}
 		}
 
@@ -51,7 +47,7 @@ $(document).ready(function(){
 
 	$('.btn-priority').click(function(e){
 		e.preventDefault();
-
+		$('.lazyload').show();
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -66,6 +62,7 @@ $(document).ready(function(){
 			},
 			'type' : 'POST',
 			success: function(data){
+				$('.lazyload').hide();
 				$('.comment-list').append(data['newcomment']);
 				$('#change_priority').val('');
 				$(".data-priority").html(data['priority']);
@@ -74,12 +71,7 @@ $(document).ready(function(){
 
 				$('.btn-priority').prop('disabled', true);
 
-				$('.thongbao').show();
-				$('.thongbao').html(data['thongbao']);
-				$('.thongbao').addClass('alert alert-success');
-				setTimeout(function(){
-					$('.thongbao').hide();
-				}, 1000);
+				$.notify(data['thongbao'], "success");
 			}
 		}
 
@@ -88,7 +80,7 @@ $(document).ready(function(){
 
 	$('.btn-deadline').click(function(e){
 		e.preventDefault();
-		
+		$('.lazyload').show();
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -103,7 +95,7 @@ $(document).ready(function(){
 			},
 			'type' : 'POST',
 			success: function(data){
-
+				$('.lazyload').hide();
 				$('.comment-list').append(data['newcomment']);
 				$('#change_deadline').val('');
 				$(".data-deadline").html(data['newdeadline']);
@@ -111,12 +103,7 @@ $(document).ready(function(){
 
 				$('.btn-deadline').prop('disabled', true);
 
-				$('.thongbao').show();
-				$('.thongbao').html(data['thongbao']);
-				$('.thongbao').addClass('alert alert-success');
-				setTimeout(function(){
-					$('.thongbao').hide();
-				}, 1000);
+				$.notify(data['thongbao'], "success");
 			}
 		}
 
@@ -125,7 +112,7 @@ $(document).ready(function(){
 
 	$('.btn-relaters').click(function(e){
 		e.preventDefault();
-		
+		$('.lazyload').show();
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -139,18 +126,13 @@ $(document).ready(function(){
 			},
 			'type' : 'POST',
 			success: function(data){
-				
+				$('.lazyload').hide();
 				$('.data-relater').html(data['newrelater']);
 				
 
 				$('.btn-relaters').prop('disabled', true);
 
-				$('.thongbao').show();
-				$('.thongbao').html(data['thongbao']);
-				$('.thongbao').addClass('alert alert-success');
-				setTimeout(function(){
-					$('.thongbao').hide();
-				}, 1000);
+				$.notify(data['thongbao'], "success");
 			}
 		}
 
@@ -159,7 +141,7 @@ $(document).ready(function(){
 
 	$('.btn-assign').click(function(e){
 		e.preventDefault();
-		
+		$('.lazyload').show();
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -173,18 +155,13 @@ $(document).ready(function(){
 			},
 			'type' : 'POST',
 			success: function(data){
-				
+				$('.lazyload').hide();
 				$('.data-assign').html(data['assign']);
 				
 
-				$('.btn-relaters').prop('disabled', true);
+				$('.btn-assign').prop('disabled', true);
 
-				$('.thongbao').show();
-				$('.thongbao').html(data['thongbao']);
-				$('.thongbao').addClass('alert alert-success');
-				setTimeout(function(){
-					$('.thongbao').hide();
-				}, 1000);
+				$.notify(data['thongbao'], "success");
 			}
 		}
 
@@ -193,7 +170,7 @@ $(document).ready(function(){
 
 	$('.btn-status').click(function(e){
 		e.preventDefault();
-
+		$('.lazyload').show();
 		var checkbox = $('.close-rate');
 		for (var i = 0; i < checkbox.length; i++){
 			if (checkbox[i].checked === true){
@@ -217,6 +194,7 @@ $(document).ready(function(){
 			},
 			'type' : 'POST',
 			success: function(data){
+				$('.lazyload').hide();
 				// $('.block-status').html(data['block-status']);
 				$('.data-status').html(data['status']);
 				$('.comment-list').append(data['newcomment']);
@@ -243,12 +221,8 @@ $(document).ready(function(){
 					}
 				}
 
-				$('.thongbao').show();
-				$('.thongbao').html(data['thongbao']);
-				$('.thongbao').addClass('alert alert-success');
-				setTimeout(function(){
-					$('.thongbao').hide();
-				}, 1000);
+				$.notify(data['thongbao'], "success");
+				
 			}
 		}
 
@@ -257,7 +231,7 @@ $(document).ready(function(){
 
 	$('.btn-comment').click(function(e){
 		e.preventDefault();
-
+		
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -271,6 +245,7 @@ $(document).ready(function(){
 			},
 			'type' : 'POST',
 			success: function(data){
+				
 				$('.comment-list').append(data);
 				$('#inp-comment').val('');
 				$('.btn-comment').prop('disabled', true);
@@ -285,9 +260,12 @@ $(document).ready(function(){
 
 // mark read
 $(document).ready(function(){
+	var site = $('#site').val();
+	// console.log(site);
 	$('.checkbox-read').click(function(){
 		var idticket = this.name;
-		// alert(this.checked);
+		
+		$('.lazyload.'+idticket).show();
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -297,10 +275,12 @@ $(document).ready(function(){
 			'url' : 'user/AjaxMarkRead/'+idticket,
 			'data' : 
 			{
-				'ischeck' : this.checked
+				'ischeck' : this.checked,
+				'site' : site
 			},
 			'type' : 'POST',
 			success: function(data){
+				$('.lazyload').hide();
 				$('.menu').html(data);
 				if($('#'+idticket).hasClass('chua-xem')){
 					$('#'+idticket).removeClass('chua-xem');

@@ -12,11 +12,10 @@
 					<div class=" thongbao"></div>
 					
 					<div class="col-sm-4">
-						<h3 class="title"><i class="fa fa-pencil" aria-hidden="true"></i> Công việc chi tiết</h3>
+						<h3 class="title"><i class="fa fa-pencil" aria-hidden="true"></i> Công việc chi tiết<img src="img/lazy-loader.gif" class="lazyload edit" ></h3>
 						<br>
-						{{$ticket->subject}}
+						<b>{{$ticket->subject}}</b>
 					</div>
-{{existTicket(100)}}
 					
 					<div class="col-sm-8 content-right-btn">
 

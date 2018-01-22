@@ -28,7 +28,7 @@
 						<tr class="@if(!isRead($tk->id)) {{' chua-xem '}} @endif" id="{{$tk->id}}">
 							<td>
 								{{$stt=$stt+1}}
-								<input type="checkbox" name="{{$tk->id}}" class="checkbox-read"   @if(isRead($tk->id)) {{' checked '}}  @endif >
+								<input type="checkbox" name="{{$tk->id}}" class="checkbox-read"   @if(isRead($tk->id)) {{' checked '}}  @endif ><img src="img/lazy-loader.gif" class="lazyload {{$tk->id}}" >
 							</td>
 							<td>
 								<a href="user/edit/{{$tk->id}}">{{$tk->subject}}</a>

@@ -14,6 +14,7 @@
 						</h4>
 
 					</div>
+					<input type="hidden" name="" id="site" value="@if(isset($site)) {{$site}} @endif">
 					<div id="myrequest" class="panel-collapse collapse in">
 						<ul class="list-group">
 							<li class="@if(isset($site)) @if($site == 11) {{'mark-site'}} @endif @endif"><a href="user/myticket/all" class="list-group-item"><i class="fa fa-inbox" aria-hidden="true"></i>All</a></li>

@@ -27,10 +27,10 @@ class AjaxMarkReadController extends Controller
                 $ticket_read->employee_id = $user->id;
                 $ticket_read->save();
 
-                return view('layout.menu');
+                return view('layout.menu', ['site'=>$request->site]);
             } else{
                 TicketRead::where('ticket_id', $idticket)->where('employee_id', $user->id)->delete();
-                return view('layout.menu');
+                return view('layout.menu', ['site'=>$request->site]);
             }
 
         }
